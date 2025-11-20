@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (event(); as eventRef) {
+      <div>
+        <h2 data-cy="eventDetailsHeading"><span jhiTranslate="backendApp.event.detail.title">Event</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ eventRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.eventId">Event Id</span></dt>
+          <dd>
+            <span>{{ eventRef.eventId }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.title">Title</span></dt>
+          <dd>
+            <span>{{ eventRef.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.subtitle">Subtitle</span></dt>
+          <dd>
+            <span>{{ eventRef.subtitle }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.fecha">Fecha</span></dt>
+          <dd>
+            <span>{{ eventRef.fecha | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.descripcion">Descripcion</span></dt>
+          <dd>
+            <span>{{ eventRef.descripcion }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.filas">Filas</span></dt>
+          <dd>
+            <span>{{ eventRef.filas }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.columnas">Columnas</span></dt>
+          <dd>
+            <span>{{ eventRef.columnas }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.tipoEvento">Tipo Evento</span></dt>
+          <dd>
+            <span>{{ eventRef.tipoEvento }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/event', eventRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>
