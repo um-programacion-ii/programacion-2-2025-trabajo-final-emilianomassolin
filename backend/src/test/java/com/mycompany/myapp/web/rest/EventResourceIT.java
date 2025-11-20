@@ -395,7 +395,12 @@ class EventResourceIT {
         Event partialUpdatedEvent = new Event();
         partialUpdatedEvent.setId(event.getId());
 
-        partialUpdatedEvent.eventId(UPDATED_EVENT_ID).fecha(UPDATED_FECHA);
+        partialUpdatedEvent
+            .eventId(UPDATED_EVENT_ID)
+            .title(UPDATED_TITLE)
+            .filas(UPDATED_FILAS)
+            .columnas(UPDATED_COLUMNAS)
+            .tipoEvento(UPDATED_TIPO_EVENTO);
 
         restEventMockMvc
             .perform(
