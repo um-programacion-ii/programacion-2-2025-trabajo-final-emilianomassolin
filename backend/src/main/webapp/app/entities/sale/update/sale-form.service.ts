@@ -27,7 +27,7 @@ type SaleFormRawValue = FormValueOf<ISale>;
 
 type NewSaleFormRawValue = FormValueOf<NewSale>;
 
-type SaleFormDefaults = Pick<NewSale, 'id' | 'fechaVenta'>;
+type SaleFormDefaults = Pick<NewSale, 'id' | 'fechaVenta' | 'resultado'>;
 
 type SaleFormGroupContent = {
   id: FormControl<SaleFormRawValue['id'] | NewSale['id']>;
@@ -36,8 +36,11 @@ type SaleFormGroupContent = {
   fechaVenta: FormControl<SaleFormRawValue['fechaVenta']>;
   asientos: FormControl<SaleFormRawValue['asientos']>;
   nombres: FormControl<SaleFormRawValue['nombres']>;
-  total: FormControl<SaleFormRawValue['total']>;
+  precioVenta: FormControl<SaleFormRawValue['precioVenta']>;
   estado: FormControl<SaleFormRawValue['estado']>;
+  resultado: FormControl<SaleFormRawValue['resultado']>;
+  descripcion: FormControl<SaleFormRawValue['descripcion']>;
+  cantidadAsientos: FormControl<SaleFormRawValue['cantidadAsientos']>;
 };
 
 export type SaleFormGroup = FormGroup<SaleFormGroupContent>;
@@ -72,10 +75,17 @@ export class SaleFormService {
       nombres: new FormControl(saleRawValue.nombres, {
         validators: [Validators.required],
       }),
-      total: new FormControl(saleRawValue.total, {
+      precioVenta: new FormControl(saleRawValue.precioVenta, {
         validators: [Validators.required],
       }),
       estado: new FormControl(saleRawValue.estado, {
+        validators: [Validators.required],
+      }),
+      resultado: new FormControl(saleRawValue.resultado, {
+        validators: [Validators.required],
+      }),
+      descripcion: new FormControl(saleRawValue.descripcion),
+      cantidadAsientos: new FormControl(saleRawValue.cantidadAsientos, {
         validators: [Validators.required],
       }),
     });
@@ -101,6 +111,7 @@ export class SaleFormService {
     return {
       id: null,
       fechaVenta: currentTime,
+      resultado: false,
     };
   }
 

@@ -30,13 +30,27 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "total",
+      "fieldName": "precioVenta",
       "fieldType": "Double",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "estado",
       "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "resultado",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "descripcion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cantidadAsientos",
+      "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     }
   ],

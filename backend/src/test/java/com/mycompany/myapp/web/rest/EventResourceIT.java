@@ -37,11 +37,11 @@ class EventResourceIT {
     private static final Long DEFAULT_EVENT_ID = 1L;
     private static final Long UPDATED_EVENT_ID = 2L;
 
-    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
-    private static final String UPDATED_TITLE = "BBBBBBBBBB";
+    private static final String DEFAULT_TITULO = "AAAAAAAAAA";
+    private static final String UPDATED_TITULO = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SUBTITLE = "AAAAAAAAAA";
-    private static final String UPDATED_SUBTITLE = "BBBBBBBBBB";
+    private static final String DEFAULT_RESUMEN = "AAAAAAAAAA";
+    private static final String UPDATED_RESUMEN = "BBBBBBBBBB";
 
     private static final Instant DEFAULT_FECHA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -49,14 +49,32 @@ class EventResourceIT {
     private static final String DEFAULT_DESCRIPCION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPCION = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_FILAS = 1;
-    private static final Integer UPDATED_FILAS = 2;
+    private static final Integer DEFAULT_FILA_ASIENTOS = 1;
+    private static final Integer UPDATED_FILA_ASIENTOS = 2;
 
-    private static final Integer DEFAULT_COLUMNAS = 1;
-    private static final Integer UPDATED_COLUMNAS = 2;
+    private static final Integer DEFAULT_COLUMNA_ASIENTOS = 1;
+    private static final Integer UPDATED_COLUMNA_ASIENTOS = 2;
 
     private static final String DEFAULT_TIPO_EVENTO = "AAAAAAAAAA";
     private static final String UPDATED_TIPO_EVENTO = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DIRECCION = "AAAAAAAAAA";
+    private static final String UPDATED_DIRECCION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_IMAGEN = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGEN = "BBBBBBBBBB";
+
+    private static final Double DEFAULT_PRECIO_ENTRADA = 1D;
+    private static final Double UPDATED_PRECIO_ENTRADA = 2D;
+
+    private static final String DEFAULT_TIPO_NOMBRE = "AAAAAAAAAA";
+    private static final String UPDATED_TIPO_NOMBRE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_TIPO_DESCRIPCION = "AAAAAAAAAA";
+    private static final String UPDATED_TIPO_DESCRIPCION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_INTEGRANTES = "AAAAAAAAAA";
+    private static final String UPDATED_INTEGRANTES = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/events";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -89,13 +107,19 @@ class EventResourceIT {
     public static Event createEntity() {
         return new Event()
             .eventId(DEFAULT_EVENT_ID)
-            .title(DEFAULT_TITLE)
-            .subtitle(DEFAULT_SUBTITLE)
+            .titulo(DEFAULT_TITULO)
+            .resumen(DEFAULT_RESUMEN)
             .fecha(DEFAULT_FECHA)
             .descripcion(DEFAULT_DESCRIPCION)
-            .filas(DEFAULT_FILAS)
-            .columnas(DEFAULT_COLUMNAS)
-            .tipoEvento(DEFAULT_TIPO_EVENTO);
+            .filaAsientos(DEFAULT_FILA_ASIENTOS)
+            .columnaAsientos(DEFAULT_COLUMNA_ASIENTOS)
+            .tipoEvento(DEFAULT_TIPO_EVENTO)
+            .direccion(DEFAULT_DIRECCION)
+            .imagen(DEFAULT_IMAGEN)
+            .precioEntrada(DEFAULT_PRECIO_ENTRADA)
+            .tipoNombre(DEFAULT_TIPO_NOMBRE)
+            .tipoDescripcion(DEFAULT_TIPO_DESCRIPCION)
+            .integrantes(DEFAULT_INTEGRANTES);
     }
 
     /**
@@ -107,13 +131,19 @@ class EventResourceIT {
     public static Event createUpdatedEntity() {
         return new Event()
             .eventId(UPDATED_EVENT_ID)
-            .title(UPDATED_TITLE)
-            .subtitle(UPDATED_SUBTITLE)
+            .titulo(UPDATED_TITULO)
+            .resumen(UPDATED_RESUMEN)
             .fecha(UPDATED_FECHA)
             .descripcion(UPDATED_DESCRIPCION)
-            .filas(UPDATED_FILAS)
-            .columnas(UPDATED_COLUMNAS)
-            .tipoEvento(UPDATED_TIPO_EVENTO);
+            .filaAsientos(UPDATED_FILA_ASIENTOS)
+            .columnaAsientos(UPDATED_COLUMNA_ASIENTOS)
+            .tipoEvento(UPDATED_TIPO_EVENTO)
+            .direccion(UPDATED_DIRECCION)
+            .imagen(UPDATED_IMAGEN)
+            .precioEntrada(UPDATED_PRECIO_ENTRADA)
+            .tipoNombre(UPDATED_TIPO_NOMBRE)
+            .tipoDescripcion(UPDATED_TIPO_DESCRIPCION)
+            .integrantes(UPDATED_INTEGRANTES);
     }
 
     @BeforeEach
@@ -186,10 +216,10 @@ class EventResourceIT {
 
     @Test
     @Transactional
-    void checkTitleIsRequired() throws Exception {
+    void checkTituloIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        event.setTitle(null);
+        event.setTitulo(null);
 
         // Create the Event, which fails.
 
@@ -218,10 +248,10 @@ class EventResourceIT {
 
     @Test
     @Transactional
-    void checkFilasIsRequired() throws Exception {
+    void checkFilaAsientosIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        event.setFilas(null);
+        event.setFilaAsientos(null);
 
         // Create the Event, which fails.
 
@@ -234,10 +264,58 @@ class EventResourceIT {
 
     @Test
     @Transactional
-    void checkColumnasIsRequired() throws Exception {
+    void checkColumnaAsientosIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        event.setColumnas(null);
+        event.setColumnaAsientos(null);
+
+        // Create the Event, which fails.
+
+        restEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(event)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPrecioEntradaIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        event.setPrecioEntrada(null);
+
+        // Create the Event, which fails.
+
+        restEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(event)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkTipoNombreIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        event.setTipoNombre(null);
+
+        // Create the Event, which fails.
+
+        restEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(event)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkTipoDescripcionIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        event.setTipoDescripcion(null);
 
         // Create the Event, which fails.
 
@@ -261,13 +339,19 @@ class EventResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
             .andExpect(jsonPath("$.[*].eventId").value(hasItem(DEFAULT_EVENT_ID.intValue())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].subtitle").value(hasItem(DEFAULT_SUBTITLE)))
+            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
+            .andExpect(jsonPath("$.[*].resumen").value(hasItem(DEFAULT_RESUMEN)))
             .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
             .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION)))
-            .andExpect(jsonPath("$.[*].filas").value(hasItem(DEFAULT_FILAS)))
-            .andExpect(jsonPath("$.[*].columnas").value(hasItem(DEFAULT_COLUMNAS)))
-            .andExpect(jsonPath("$.[*].tipoEvento").value(hasItem(DEFAULT_TIPO_EVENTO)));
+            .andExpect(jsonPath("$.[*].filaAsientos").value(hasItem(DEFAULT_FILA_ASIENTOS)))
+            .andExpect(jsonPath("$.[*].columnaAsientos").value(hasItem(DEFAULT_COLUMNA_ASIENTOS)))
+            .andExpect(jsonPath("$.[*].tipoEvento").value(hasItem(DEFAULT_TIPO_EVENTO)))
+            .andExpect(jsonPath("$.[*].direccion").value(hasItem(DEFAULT_DIRECCION)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(DEFAULT_IMAGEN)))
+            .andExpect(jsonPath("$.[*].precioEntrada").value(hasItem(DEFAULT_PRECIO_ENTRADA)))
+            .andExpect(jsonPath("$.[*].tipoNombre").value(hasItem(DEFAULT_TIPO_NOMBRE)))
+            .andExpect(jsonPath("$.[*].tipoDescripcion").value(hasItem(DEFAULT_TIPO_DESCRIPCION)))
+            .andExpect(jsonPath("$.[*].integrantes").value(hasItem(DEFAULT_INTEGRANTES)));
     }
 
     @Test
@@ -283,13 +367,19 @@ class EventResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(event.getId().intValue()))
             .andExpect(jsonPath("$.eventId").value(DEFAULT_EVENT_ID.intValue()))
-            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.subtitle").value(DEFAULT_SUBTITLE))
+            .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
+            .andExpect(jsonPath("$.resumen").value(DEFAULT_RESUMEN))
             .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
             .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION))
-            .andExpect(jsonPath("$.filas").value(DEFAULT_FILAS))
-            .andExpect(jsonPath("$.columnas").value(DEFAULT_COLUMNAS))
-            .andExpect(jsonPath("$.tipoEvento").value(DEFAULT_TIPO_EVENTO));
+            .andExpect(jsonPath("$.filaAsientos").value(DEFAULT_FILA_ASIENTOS))
+            .andExpect(jsonPath("$.columnaAsientos").value(DEFAULT_COLUMNA_ASIENTOS))
+            .andExpect(jsonPath("$.tipoEvento").value(DEFAULT_TIPO_EVENTO))
+            .andExpect(jsonPath("$.direccion").value(DEFAULT_DIRECCION))
+            .andExpect(jsonPath("$.imagen").value(DEFAULT_IMAGEN))
+            .andExpect(jsonPath("$.precioEntrada").value(DEFAULT_PRECIO_ENTRADA))
+            .andExpect(jsonPath("$.tipoNombre").value(DEFAULT_TIPO_NOMBRE))
+            .andExpect(jsonPath("$.tipoDescripcion").value(DEFAULT_TIPO_DESCRIPCION))
+            .andExpect(jsonPath("$.integrantes").value(DEFAULT_INTEGRANTES));
     }
 
     @Test
@@ -313,13 +403,19 @@ class EventResourceIT {
         em.detach(updatedEvent);
         updatedEvent
             .eventId(UPDATED_EVENT_ID)
-            .title(UPDATED_TITLE)
-            .subtitle(UPDATED_SUBTITLE)
+            .titulo(UPDATED_TITULO)
+            .resumen(UPDATED_RESUMEN)
             .fecha(UPDATED_FECHA)
             .descripcion(UPDATED_DESCRIPCION)
-            .filas(UPDATED_FILAS)
-            .columnas(UPDATED_COLUMNAS)
-            .tipoEvento(UPDATED_TIPO_EVENTO);
+            .filaAsientos(UPDATED_FILA_ASIENTOS)
+            .columnaAsientos(UPDATED_COLUMNA_ASIENTOS)
+            .tipoEvento(UPDATED_TIPO_EVENTO)
+            .direccion(UPDATED_DIRECCION)
+            .imagen(UPDATED_IMAGEN)
+            .precioEntrada(UPDATED_PRECIO_ENTRADA)
+            .tipoNombre(UPDATED_TIPO_NOMBRE)
+            .tipoDescripcion(UPDATED_TIPO_DESCRIPCION)
+            .integrantes(UPDATED_INTEGRANTES);
 
         restEventMockMvc
             .perform(
@@ -397,10 +493,13 @@ class EventResourceIT {
 
         partialUpdatedEvent
             .eventId(UPDATED_EVENT_ID)
-            .title(UPDATED_TITLE)
-            .filas(UPDATED_FILAS)
-            .columnas(UPDATED_COLUMNAS)
-            .tipoEvento(UPDATED_TIPO_EVENTO);
+            .titulo(UPDATED_TITULO)
+            .resumen(UPDATED_RESUMEN)
+            .descripcion(UPDATED_DESCRIPCION)
+            .filaAsientos(UPDATED_FILA_ASIENTOS)
+            .direccion(UPDATED_DIRECCION)
+            .imagen(UPDATED_IMAGEN)
+            .tipoNombre(UPDATED_TIPO_NOMBRE);
 
         restEventMockMvc
             .perform(
@@ -430,13 +529,19 @@ class EventResourceIT {
 
         partialUpdatedEvent
             .eventId(UPDATED_EVENT_ID)
-            .title(UPDATED_TITLE)
-            .subtitle(UPDATED_SUBTITLE)
+            .titulo(UPDATED_TITULO)
+            .resumen(UPDATED_RESUMEN)
             .fecha(UPDATED_FECHA)
             .descripcion(UPDATED_DESCRIPCION)
-            .filas(UPDATED_FILAS)
-            .columnas(UPDATED_COLUMNAS)
-            .tipoEvento(UPDATED_TIPO_EVENTO);
+            .filaAsientos(UPDATED_FILA_ASIENTOS)
+            .columnaAsientos(UPDATED_COLUMNA_ASIENTOS)
+            .tipoEvento(UPDATED_TIPO_EVENTO)
+            .direccion(UPDATED_DIRECCION)
+            .imagen(UPDATED_IMAGEN)
+            .precioEntrada(UPDATED_PRECIO_ENTRADA)
+            .tipoNombre(UPDATED_TIPO_NOMBRE)
+            .tipoDescripcion(UPDATED_TIPO_DESCRIPCION)
+            .integrantes(UPDATED_INTEGRANTES);
 
         restEventMockMvc
             .perform(

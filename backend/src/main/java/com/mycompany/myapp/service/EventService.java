@@ -62,11 +62,11 @@ public class EventService {
                 if (event.getEventId() != null) {
                     existingEvent.setEventId(event.getEventId());
                 }
-                if (event.getTitle() != null) {
-                    existingEvent.setTitle(event.getTitle());
+                if (event.getTitulo() != null) {
+                    existingEvent.setTitulo(event.getTitulo());
                 }
-                if (event.getSubtitle() != null) {
-                    existingEvent.setSubtitle(event.getSubtitle());
+                if (event.getResumen() != null) {
+                    existingEvent.setResumen(event.getResumen());
                 }
                 if (event.getFecha() != null) {
                     existingEvent.setFecha(event.getFecha());
@@ -74,14 +74,32 @@ public class EventService {
                 if (event.getDescripcion() != null) {
                     existingEvent.setDescripcion(event.getDescripcion());
                 }
-                if (event.getFilas() != null) {
-                    existingEvent.setFilas(event.getFilas());
+                if (event.getFilaAsientos() != null) {
+                    existingEvent.setFilaAsientos(event.getFilaAsientos());
                 }
-                if (event.getColumnas() != null) {
-                    existingEvent.setColumnas(event.getColumnas());
+                if (event.getColumnaAsientos() != null) {
+                    existingEvent.setColumnaAsientos(event.getColumnaAsientos());
                 }
                 if (event.getTipoEvento() != null) {
                     existingEvent.setTipoEvento(event.getTipoEvento());
+                }
+                if (event.getDireccion() != null) {
+                    existingEvent.setDireccion(event.getDireccion());
+                }
+                if (event.getImagen() != null) {
+                    existingEvent.setImagen(event.getImagen());
+                }
+                if (event.getPrecioEntrada() != null) {
+                    existingEvent.setPrecioEntrada(event.getPrecioEntrada());
+                }
+                if (event.getTipoNombre() != null) {
+                    existingEvent.setTipoNombre(event.getTipoNombre());
+                }
+                if (event.getTipoDescripcion() != null) {
+                    existingEvent.setTipoDescripcion(event.getTipoDescripcion());
+                }
+                if (event.getIntegrantes() != null) {
+                    existingEvent.setIntegrantes(event.getIntegrantes());
                 }
 
                 return existingEvent;

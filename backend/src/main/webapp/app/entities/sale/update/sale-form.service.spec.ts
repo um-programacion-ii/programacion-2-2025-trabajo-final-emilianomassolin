@@ -25,8 +25,11 @@ describe('Sale Form Service', () => {
             fechaVenta: expect.any(Object),
             asientos: expect.any(Object),
             nombres: expect.any(Object),
-            total: expect.any(Object),
+            precioVenta: expect.any(Object),
             estado: expect.any(Object),
+            resultado: expect.any(Object),
+            descripcion: expect.any(Object),
+            cantidadAsientos: expect.any(Object),
           }),
         );
       });
@@ -42,8 +45,11 @@ describe('Sale Form Service', () => {
             fechaVenta: expect.any(Object),
             asientos: expect.any(Object),
             nombres: expect.any(Object),
-            total: expect.any(Object),
+            precioVenta: expect.any(Object),
             estado: expect.any(Object),
+            resultado: expect.any(Object),
+            descripcion: expect.any(Object),
+            cantidadAsientos: expect.any(Object),
           }),
         );
       });

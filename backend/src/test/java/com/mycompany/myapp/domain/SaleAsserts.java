@@ -52,8 +52,11 @@ public class SaleAsserts {
             .satisfies(a -> assertThat(a.getFechaVenta()).as("check fechaVenta").isEqualTo(expected.getFechaVenta()))
             .satisfies(a -> assertThat(a.getAsientos()).as("check asientos").isEqualTo(expected.getAsientos()))
             .satisfies(a -> assertThat(a.getNombres()).as("check nombres").isEqualTo(expected.getNombres()))
-            .satisfies(a -> assertThat(a.getTotal()).as("check total").isEqualTo(expected.getTotal()))
-            .satisfies(a -> assertThat(a.getEstado()).as("check estado").isEqualTo(expected.getEstado()));
+            .satisfies(a -> assertThat(a.getPrecioVenta()).as("check precioVenta").isEqualTo(expected.getPrecioVenta()))
+            .satisfies(a -> assertThat(a.getEstado()).as("check estado").isEqualTo(expected.getEstado()))
+            .satisfies(a -> assertThat(a.getResultado()).as("check resultado").isEqualTo(expected.getResultado()))
+            .satisfies(a -> assertThat(a.getDescripcion()).as("check descripcion").isEqualTo(expected.getDescripcion()))
+            .satisfies(a -> assertThat(a.getCantidadAsientos()).as("check cantidadAsientos").isEqualTo(expected.getCantidadAsientos()));
     }
 
     /**

@@ -10,12 +10,12 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "title",
+      "fieldName": "titulo",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "subtitle",
+      "fieldName": "resumen",
       "fieldType": "String"
     },
     {
@@ -28,17 +28,44 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "filas",
+      "fieldName": "filaAsientos",
       "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "columnas",
+      "fieldName": "columnaAsientos",
       "fieldType": "Integer",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "tipoEvento",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "direccion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imagen",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "precioEntrada",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tipoNombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tipoDescripcion",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "integrantes",
       "fieldType": "String"
     }
   ],

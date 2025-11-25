@@ -1,0 +1,28 @@
+{
+  "backendApp": {
+    "seatSelection": {
+      "home": {
+        "title": "Seat Selections",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Seat Selection",
+        "createOrEditLabel": "Crear o editar Seat Selection",
+        "notFound": "Ningún Seat Selections encontrado"
+      },
+      "created": "Un nuevo Seat Selection ha sido creado con el identificador {{ param }}",
+      "updated": "Un Seat Selection ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Seat Selection ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Seat Selection {{ id }}?"
+      },
+      "detail": {
+        "title": "Seat Selection"
+      },
+      "id": "ID",
+      "eventId": "Event Id",
+      "userLogin": "User Login",
+      "asientos": "Asientos",
+      "fechaSeleccion": "Fecha Seleccion",
+      "expiracion": "Expiracion"
+    }
+  }
+}

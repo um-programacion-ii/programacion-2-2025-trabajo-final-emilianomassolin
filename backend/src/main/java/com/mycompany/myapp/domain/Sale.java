@@ -45,12 +45,23 @@ public class Sale implements Serializable {
     private String nombres;
 
     @NotNull
-    @Column(name = "total", nullable = false)
-    private Double total;
+    @Column(name = "precio_venta", nullable = false)
+    private Double precioVenta;
 
     @NotNull
     @Column(name = "estado", nullable = false)
     private String estado;
+
+    @NotNull
+    @Column(name = "resultado", nullable = false)
+    private Boolean resultado;
+
+    @Column(name = "descripcion")
+    private String descripcion;
+
+    @NotNull
+    @Column(name = "cantidad_asientos", nullable = false)
+    private Integer cantidadAsientos;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -132,17 +143,17 @@ public class Sale implements Serializable {
         this.nombres = nombres;
     }
 
-    public Double getTotal() {
-        return this.total;
+    public Double getPrecioVenta() {
+        return this.precioVenta;
     }
 
-    public Sale total(Double total) {
-        this.setTotal(total);
+    public Sale precioVenta(Double precioVenta) {
+        this.setPrecioVenta(precioVenta);
         return this;
     }
 
-    public void setTotal(Double total) {
-        this.total = total;
+    public void setPrecioVenta(Double precioVenta) {
+        this.precioVenta = precioVenta;
     }
 
     public String getEstado() {
@@ -156,6 +167,45 @@ public class Sale implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public Boolean getResultado() {
+        return this.resultado;
+    }
+
+    public Sale resultado(Boolean resultado) {
+        this.setResultado(resultado);
+        return this;
+    }
+
+    public void setResultado(Boolean resultado) {
+        this.resultado = resultado;
+    }
+
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+
+    public Sale descripcion(String descripcion) {
+        this.setDescripcion(descripcion);
+        return this;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Integer getCantidadAsientos() {
+        return this.cantidadAsientos;
+    }
+
+    public Sale cantidadAsientos(Integer cantidadAsientos) {
+        this.setCantidadAsientos(cantidadAsientos);
+        return this;
+    }
+
+    public void setCantidadAsientos(Integer cantidadAsientos) {
+        this.cantidadAsientos = cantidadAsientos;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -187,8 +237,11 @@ public class Sale implements Serializable {
             ", fechaVenta='" + getFechaVenta() + "'" +
             ", asientos='" + getAsientos() + "'" +
             ", nombres='" + getNombres() + "'" +
-            ", total=" + getTotal() +
+            ", precioVenta=" + getPrecioVenta() +
             ", estado='" + getEstado() + "'" +
+            ", resultado='" + getResultado() + "'" +
+            ", descripcion='" + getDescripcion() + "'" +
+            ", cantidadAsientos=" + getCantidadAsientos() +
             "}";
     }
 }

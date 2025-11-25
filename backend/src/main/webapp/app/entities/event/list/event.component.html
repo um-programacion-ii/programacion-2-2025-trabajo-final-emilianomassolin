@@ -47,16 +47,16 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="title">
+            <th scope="col" jhiSortBy="titulo">
               <div class="d-flex">
-                <span jhiTranslate="backendApp.event.title">Title</span>
+                <span jhiTranslate="backendApp.event.titulo">Titulo</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="subtitle">
+            <th scope="col" jhiSortBy="resumen">
               <div class="d-flex">
-                <span jhiTranslate="backendApp.event.subtitle">Subtitle</span>
+                <span jhiTranslate="backendApp.event.resumen">Resumen</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -75,16 +75,16 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="filas">
+            <th scope="col" jhiSortBy="filaAsientos">
               <div class="d-flex">
-                <span jhiTranslate="backendApp.event.filas">Filas</span>
+                <span jhiTranslate="backendApp.event.filaAsientos">Fila Asientos</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="columnas">
+            <th scope="col" jhiSortBy="columnaAsientos">
               <div class="d-flex">
-                <span jhiTranslate="backendApp.event.columnas">Columnas</span>
+                <span jhiTranslate="backendApp.event.columnaAsientos">Columna Asientos</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -92,6 +92,48 @@
             <th scope="col" jhiSortBy="tipoEvento">
               <div class="d-flex">
                 <span jhiTranslate="backendApp.event.tipoEvento">Tipo Evento</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="direccion">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.event.direccion">Direccion</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="imagen">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.event.imagen">Imagen</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="precioEntrada">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.event.precioEntrada">Precio Entrada</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="tipoNombre">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.event.tipoNombre">Tipo Nombre</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="tipoDescripcion">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.event.tipoDescripcion">Tipo Descripcion</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="integrantes">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.event.integrantes">Integrantes</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -106,13 +148,19 @@
                 <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
               </td>
               <td>{{ event.eventId }}</td>
-              <td>{{ event.title }}</td>
-              <td>{{ event.subtitle }}</td>
+              <td>{{ event.titulo }}</td>
+              <td>{{ event.resumen }}</td>
               <td>{{ event.fecha | formatMediumDatetime }}</td>
               <td>{{ event.descripcion }}</td>
-              <td>{{ event.filas }}</td>
-              <td>{{ event.columnas }}</td>
+              <td>{{ event.filaAsientos }}</td>
+              <td>{{ event.columnaAsientos }}</td>
               <td>{{ event.tipoEvento }}</td>
+              <td>{{ event.direccion }}</td>
+              <td>{{ event.imagen }}</td>
+              <td>{{ event.precioEntrada }}</td>
+              <td>{{ event.tipoNombre }}</td>
+              <td>{{ event.tipoDescripcion }}</td>
+              <td>{{ event.integrantes }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

@@ -23,8 +23,11 @@
       "fechaVenta": "Fecha Venta",
       "asientos": "Asientos",
       "nombres": "Nombres",
-      "total": "Total",
-      "estado": "Estado"
+      "precioVenta": "Precio Venta",
+      "estado": "Estado",
+      "resultado": "Resultado",
+      "descripcion": "Descripcion",
+      "cantidadAsientos": "Cantidad Asientos"
     }
   }
 }

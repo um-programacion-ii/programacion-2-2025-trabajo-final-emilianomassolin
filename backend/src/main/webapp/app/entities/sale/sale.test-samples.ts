@@ -9,19 +9,23 @@ export const sampleWithRequiredData: ISale = {
   fechaVenta: dayjs('2025-11-19T22:57'),
   asientos: 'gah rationale bah',
   nombres: 'tepid monumental intermarry',
-  total: 19309.8,
+  precioVenta: 19309.8,
   estado: 'inside',
+  resultado: true,
+  cantidadAsientos: 20977,
 };
 
 export const sampleWithPartialData: ISale = {
-  id: 27333,
-  ventaId: 27171,
-  eventId: 14069,
-  fechaVenta: dayjs('2025-11-19T21:48'),
-  asientos: 'badly dazzling ah',
-  nombres: 'igloo',
-  total: 10275.92,
-  estado: 'of leap shocked',
+  id: 27171,
+  ventaId: 14069,
+  eventId: 10443,
+  fechaVenta: dayjs('2025-11-20T06:28'),
+  asientos: 'diversity properly apropos',
+  nombres: 'if triumphantly',
+  precioVenta: 20271.16,
+  estado: 'sport subdued',
+  resultado: false,
+  cantidadAsientos: 30845,
 };
 
 export const sampleWithFullData: ISale = {
@@ -31,8 +35,11 @@ export const sampleWithFullData: ISale = {
   fechaVenta: dayjs('2025-11-19T16:21'),
   asientos: 'vice alert',
   nombres: 'honestly',
-  total: 8063.84,
+  precioVenta: 8063.84,
   estado: 'horse yuck',
+  resultado: true,
+  descripcion: 'slimy',
+  cantidadAsientos: 10156,
 };
 
 export const sampleWithNewData: NewSale = {
@@ -41,8 +48,10 @@ export const sampleWithNewData: NewSale = {
   fechaVenta: dayjs('2025-11-20T12:35'),
   asientos: 'downchange phooey gruesome',
   nombres: 'far jaggedly',
-  total: 6978.25,
+  precioVenta: 6978.25,
   estado: 'till next regarding',
+  resultado: true,
+  cantidadAsientos: 27929,
   id: null,
 };
 

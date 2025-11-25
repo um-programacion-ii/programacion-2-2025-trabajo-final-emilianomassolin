@@ -74,11 +74,20 @@ public class SaleService {
                 if (sale.getNombres() != null) {
                     existingSale.setNombres(sale.getNombres());
                 }
-                if (sale.getTotal() != null) {
-                    existingSale.setTotal(sale.getTotal());
+                if (sale.getPrecioVenta() != null) {
+                    existingSale.setPrecioVenta(sale.getPrecioVenta());
                 }
                 if (sale.getEstado() != null) {
                     existingSale.setEstado(sale.getEstado());
+                }
+                if (sale.getResultado() != null) {
+                    existingSale.setResultado(sale.getResultado());
+                }
+                if (sale.getDescripcion() != null) {
+                    existingSale.setDescripcion(sale.getDescripcion());
+                }
+                if (sale.getCantidadAsientos() != null) {
+                    existingSale.setCantidadAsientos(sale.getCantidadAsientos());
                 }
 
                 return existingSale;

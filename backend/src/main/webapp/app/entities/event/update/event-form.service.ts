@@ -32,13 +32,19 @@ type EventFormDefaults = Pick<NewEvent, 'id' | 'fecha'>;
 type EventFormGroupContent = {
   id: FormControl<EventFormRawValue['id'] | NewEvent['id']>;
   eventId: FormControl<EventFormRawValue['eventId']>;
-  title: FormControl<EventFormRawValue['title']>;
-  subtitle: FormControl<EventFormRawValue['subtitle']>;
+  titulo: FormControl<EventFormRawValue['titulo']>;
+  resumen: FormControl<EventFormRawValue['resumen']>;
   fecha: FormControl<EventFormRawValue['fecha']>;
   descripcion: FormControl<EventFormRawValue['descripcion']>;
-  filas: FormControl<EventFormRawValue['filas']>;
-  columnas: FormControl<EventFormRawValue['columnas']>;
+  filaAsientos: FormControl<EventFormRawValue['filaAsientos']>;
+  columnaAsientos: FormControl<EventFormRawValue['columnaAsientos']>;
   tipoEvento: FormControl<EventFormRawValue['tipoEvento']>;
+  direccion: FormControl<EventFormRawValue['direccion']>;
+  imagen: FormControl<EventFormRawValue['imagen']>;
+  precioEntrada: FormControl<EventFormRawValue['precioEntrada']>;
+  tipoNombre: FormControl<EventFormRawValue['tipoNombre']>;
+  tipoDescripcion: FormControl<EventFormRawValue['tipoDescripcion']>;
+  integrantes: FormControl<EventFormRawValue['integrantes']>;
 };
 
 export type EventFormGroup = FormGroup<EventFormGroupContent>;
@@ -61,21 +67,33 @@ export class EventFormService {
       eventId: new FormControl(eventRawValue.eventId, {
         validators: [Validators.required],
       }),
-      title: new FormControl(eventRawValue.title, {
+      titulo: new FormControl(eventRawValue.titulo, {
         validators: [Validators.required],
       }),
-      subtitle: new FormControl(eventRawValue.subtitle),
+      resumen: new FormControl(eventRawValue.resumen),
       fecha: new FormControl(eventRawValue.fecha, {
         validators: [Validators.required],
       }),
       descripcion: new FormControl(eventRawValue.descripcion),
-      filas: new FormControl(eventRawValue.filas, {
+      filaAsientos: new FormControl(eventRawValue.filaAsientos, {
         validators: [Validators.required],
       }),
-      columnas: new FormControl(eventRawValue.columnas, {
+      columnaAsientos: new FormControl(eventRawValue.columnaAsientos, {
         validators: [Validators.required],
       }),
       tipoEvento: new FormControl(eventRawValue.tipoEvento),
+      direccion: new FormControl(eventRawValue.direccion),
+      imagen: new FormControl(eventRawValue.imagen),
+      precioEntrada: new FormControl(eventRawValue.precioEntrada, {
+        validators: [Validators.required],
+      }),
+      tipoNombre: new FormControl(eventRawValue.tipoNombre, {
+        validators: [Validators.required],
+      }),
+      tipoDescripcion: new FormControl(eventRawValue.tipoDescripcion, {
+        validators: [Validators.required],
+      }),
+      integrantes: new FormControl(eventRawValue.integrantes),
     });
   }
 

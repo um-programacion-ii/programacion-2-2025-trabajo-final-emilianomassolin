@@ -48,13 +48,19 @@ public class EventAsserts {
         assertThat(actual)
             .as("Verify Event relevant properties")
             .satisfies(a -> assertThat(a.getEventId()).as("check eventId").isEqualTo(expected.getEventId()))
-            .satisfies(a -> assertThat(a.getTitle()).as("check title").isEqualTo(expected.getTitle()))
-            .satisfies(a -> assertThat(a.getSubtitle()).as("check subtitle").isEqualTo(expected.getSubtitle()))
+            .satisfies(a -> assertThat(a.getTitulo()).as("check titulo").isEqualTo(expected.getTitulo()))
+            .satisfies(a -> assertThat(a.getResumen()).as("check resumen").isEqualTo(expected.getResumen()))
             .satisfies(a -> assertThat(a.getFecha()).as("check fecha").isEqualTo(expected.getFecha()))
             .satisfies(a -> assertThat(a.getDescripcion()).as("check descripcion").isEqualTo(expected.getDescripcion()))
-            .satisfies(a -> assertThat(a.getFilas()).as("check filas").isEqualTo(expected.getFilas()))
-            .satisfies(a -> assertThat(a.getColumnas()).as("check columnas").isEqualTo(expected.getColumnas()))
-            .satisfies(a -> assertThat(a.getTipoEvento()).as("check tipoEvento").isEqualTo(expected.getTipoEvento()));
+            .satisfies(a -> assertThat(a.getFilaAsientos()).as("check filaAsientos").isEqualTo(expected.getFilaAsientos()))
+            .satisfies(a -> assertThat(a.getColumnaAsientos()).as("check columnaAsientos").isEqualTo(expected.getColumnaAsientos()))
+            .satisfies(a -> assertThat(a.getTipoEvento()).as("check tipoEvento").isEqualTo(expected.getTipoEvento()))
+            .satisfies(a -> assertThat(a.getDireccion()).as("check direccion").isEqualTo(expected.getDireccion()))
+            .satisfies(a -> assertThat(a.getImagen()).as("check imagen").isEqualTo(expected.getImagen()))
+            .satisfies(a -> assertThat(a.getPrecioEntrada()).as("check precioEntrada").isEqualTo(expected.getPrecioEntrada()))
+            .satisfies(a -> assertThat(a.getTipoNombre()).as("check tipoNombre").isEqualTo(expected.getTipoNombre()))
+            .satisfies(a -> assertThat(a.getTipoDescripcion()).as("check tipoDescripcion").isEqualTo(expected.getTipoDescripcion()))
+            .satisfies(a -> assertThat(a.getIntegrantes()).as("check integrantes").isEqualTo(expected.getIntegrantes()));
     }
 
     /**

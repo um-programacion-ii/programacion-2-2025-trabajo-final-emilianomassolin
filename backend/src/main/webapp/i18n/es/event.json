@@ -19,13 +19,19 @@
       },
       "id": "ID",
       "eventId": "Event Id",
-      "title": "Title",
-      "subtitle": "Subtitle",
+      "titulo": "Titulo",
+      "resumen": "Resumen",
       "fecha": "Fecha",
       "descripcion": "Descripcion",
-      "filas": "Filas",
-      "columnas": "Columnas",
-      "tipoEvento": "Tipo Evento"
+      "filaAsientos": "Fila Asientos",
+      "columnaAsientos": "Columna Asientos",
+      "tipoEvento": "Tipo Evento",
+      "direccion": "Direccion",
+      "imagen": "Imagen",
+      "precioEntrada": "Precio Entrada",
+      "tipoNombre": "Tipo Nombre",
+      "tipoDescripcion": "Tipo Descripcion",
+      "integrantes": "Integrantes"
     }
   }
 }

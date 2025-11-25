@@ -49,11 +49,20 @@ class SaleResourceIT {
     private static final String DEFAULT_NOMBRES = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRES = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL = 1D;
-    private static final Double UPDATED_TOTAL = 2D;
+    private static final Double DEFAULT_PRECIO_VENTA = 1D;
+    private static final Double UPDATED_PRECIO_VENTA = 2D;
 
     private static final String DEFAULT_ESTADO = "AAAAAAAAAA";
     private static final String UPDATED_ESTADO = "BBBBBBBBBB";
+
+    private static final Boolean DEFAULT_RESULTADO = false;
+    private static final Boolean UPDATED_RESULTADO = true;
+
+    private static final String DEFAULT_DESCRIPCION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPCION = "BBBBBBBBBB";
+
+    private static final Integer DEFAULT_CANTIDAD_ASIENTOS = 1;
+    private static final Integer UPDATED_CANTIDAD_ASIENTOS = 2;
 
     private static final String ENTITY_API_URL = "/api/sales";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -90,8 +99,11 @@ class SaleResourceIT {
             .fechaVenta(DEFAULT_FECHA_VENTA)
             .asientos(DEFAULT_ASIENTOS)
             .nombres(DEFAULT_NOMBRES)
-            .total(DEFAULT_TOTAL)
-            .estado(DEFAULT_ESTADO);
+            .precioVenta(DEFAULT_PRECIO_VENTA)
+            .estado(DEFAULT_ESTADO)
+            .resultado(DEFAULT_RESULTADO)
+            .descripcion(DEFAULT_DESCRIPCION)
+            .cantidadAsientos(DEFAULT_CANTIDAD_ASIENTOS);
     }
 
     /**
@@ -107,8 +119,11 @@ class SaleResourceIT {
             .fechaVenta(UPDATED_FECHA_VENTA)
             .asientos(UPDATED_ASIENTOS)
             .nombres(UPDATED_NOMBRES)
-            .total(UPDATED_TOTAL)
-            .estado(UPDATED_ESTADO);
+            .precioVenta(UPDATED_PRECIO_VENTA)
+            .estado(UPDATED_ESTADO)
+            .resultado(UPDATED_RESULTADO)
+            .descripcion(UPDATED_DESCRIPCION)
+            .cantidadAsientos(UPDATED_CANTIDAD_ASIENTOS);
     }
 
     @BeforeEach
@@ -245,10 +260,10 @@ class SaleResourceIT {
 
     @Test
     @Transactional
-    void checkTotalIsRequired() throws Exception {
+    void checkPrecioVentaIsRequired() throws Exception {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
-        sale.setTotal(null);
+        sale.setPrecioVenta(null);
 
         // Create the Sale, which fails.
 
@@ -277,6 +292,38 @@ class SaleResourceIT {
 
     @Test
     @Transactional
+    void checkResultadoIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        sale.setResultado(null);
+
+        // Create the Sale, which fails.
+
+        restSaleMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(sale)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkCantidadAsientosIsRequired() throws Exception {
+        long databaseSizeBeforeTest = getRepositoryCount();
+        // set the field null
+        sale.setCantidadAsientos(null);
+
+        // Create the Sale, which fails.
+
+        restSaleMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsBytes(sale)))
+            .andExpect(status().isBadRequest());
+
+        assertSameRepositoryCount(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllSales() throws Exception {
         // Initialize the database
         insertedSale = saleRepository.saveAndFlush(sale);
@@ -292,8 +339,11 @@ class SaleResourceIT {
             .andExpect(jsonPath("$.[*].fechaVenta").value(hasItem(DEFAULT_FECHA_VENTA.toString())))
             .andExpect(jsonPath("$.[*].asientos").value(hasItem(DEFAULT_ASIENTOS)))
             .andExpect(jsonPath("$.[*].nombres").value(hasItem(DEFAULT_NOMBRES)))
-            .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL)))
-            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO)));
+            .andExpect(jsonPath("$.[*].precioVenta").value(hasItem(DEFAULT_PRECIO_VENTA)))
+            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO)))
+            .andExpect(jsonPath("$.[*].resultado").value(hasItem(DEFAULT_RESULTADO)))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION)))
+            .andExpect(jsonPath("$.[*].cantidadAsientos").value(hasItem(DEFAULT_CANTIDAD_ASIENTOS)));
     }
 
     @Test
@@ -313,8 +363,11 @@ class SaleResourceIT {
             .andExpect(jsonPath("$.fechaVenta").value(DEFAULT_FECHA_VENTA.toString()))
             .andExpect(jsonPath("$.asientos").value(DEFAULT_ASIENTOS))
             .andExpect(jsonPath("$.nombres").value(DEFAULT_NOMBRES))
-            .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL))
-            .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO));
+            .andExpect(jsonPath("$.precioVenta").value(DEFAULT_PRECIO_VENTA))
+            .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO))
+            .andExpect(jsonPath("$.resultado").value(DEFAULT_RESULTADO))
+            .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION))
+            .andExpect(jsonPath("$.cantidadAsientos").value(DEFAULT_CANTIDAD_ASIENTOS));
     }
 
     @Test
@@ -342,8 +395,11 @@ class SaleResourceIT {
             .fechaVenta(UPDATED_FECHA_VENTA)
             .asientos(UPDATED_ASIENTOS)
             .nombres(UPDATED_NOMBRES)
-            .total(UPDATED_TOTAL)
-            .estado(UPDATED_ESTADO);
+            .precioVenta(UPDATED_PRECIO_VENTA)
+            .estado(UPDATED_ESTADO)
+            .resultado(UPDATED_RESULTADO)
+            .descripcion(UPDATED_DESCRIPCION)
+            .cantidadAsientos(UPDATED_CANTIDAD_ASIENTOS);
 
         restSaleMockMvc
             .perform(
@@ -419,7 +475,13 @@ class SaleResourceIT {
         Sale partialUpdatedSale = new Sale();
         partialUpdatedSale.setId(sale.getId());
 
-        partialUpdatedSale.fechaVenta(UPDATED_FECHA_VENTA).total(UPDATED_TOTAL).estado(UPDATED_ESTADO);
+        partialUpdatedSale
+            .ventaId(UPDATED_VENTA_ID)
+            .eventId(UPDATED_EVENT_ID)
+            .fechaVenta(UPDATED_FECHA_VENTA)
+            .asientos(UPDATED_ASIENTOS)
+            .estado(UPDATED_ESTADO)
+            .resultado(UPDATED_RESULTADO);
 
         restSaleMockMvc
             .perform(
@@ -453,8 +515,11 @@ class SaleResourceIT {
             .fechaVenta(UPDATED_FECHA_VENTA)
             .asientos(UPDATED_ASIENTOS)
             .nombres(UPDATED_NOMBRES)
-            .total(UPDATED_TOTAL)
-            .estado(UPDATED_ESTADO);
+            .precioVenta(UPDATED_PRECIO_VENTA)
+            .estado(UPDATED_ESTADO)
+            .resultado(UPDATED_RESULTADO)
+            .descripcion(UPDATED_DESCRIPCION)
+            .cantidadAsientos(UPDATED_CANTIDAD_ASIENTOS);
 
         restSaleMockMvc
             .perform(

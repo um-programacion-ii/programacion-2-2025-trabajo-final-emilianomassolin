@@ -1,0 +1,135 @@
+<div>
+  <h2 id="page-heading" data-cy="SeatSelectionHeading">
+    <span jhiTranslate="backendApp.seatSelection.home.title">Seat Selections</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="backendApp.seatSelection.home.refreshListLabel">Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-seat-selection"
+        [routerLink]="['/seat-selection/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="backendApp.seatSelection.home.createLabel">Crear nuevo Seat Selection</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (seatSelections().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="backendApp.seatSelection.home.notFound">Ningún Seat Selections encontrado</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="eventId">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.seatSelection.eventId">Event Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="userLogin">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.seatSelection.userLogin">User Login</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="asientos">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.seatSelection.asientos">Asientos</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="fechaSeleccion">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.seatSelection.fechaSeleccion">Fecha Seleccion</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="expiracion">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.seatSelection.expiracion">Expiracion</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (seatSelection of seatSelections(); track trackId(seatSelection)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/seat-selection', seatSelection.id, 'view']">{{ seatSelection.id }}</a>
+              </td>
+              <td>{{ seatSelection.eventId }}</td>
+              <td>{{ seatSelection.userLogin }}</td>
+              <td>{{ seatSelection.asientos }}</td>
+              <td>{{ seatSelection.fechaSeleccion | formatMediumDatetime }}</td>
+              <td>{{ seatSelection.expiracion | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/seat-selection', seatSelection.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/seat-selection', seatSelection.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(seatSelection)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (seatSelections().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

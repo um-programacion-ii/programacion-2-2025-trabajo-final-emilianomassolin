@@ -67,6 +67,30 @@
                   <span jhiTranslate="global.menu.entities.sale">Sale</span>
                 </a>
               </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/seat-selection"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()"
+                >
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.seatSelection">Seat Selection</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/user-session"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="collapseNavbar()"
+                >
+                  <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                  <span jhiTranslate="global.menu.entities.userSession">User Session</span>
+                </a>
+              </li>
               <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
             </ul>
           </li>

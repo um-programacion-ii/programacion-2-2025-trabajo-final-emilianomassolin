@@ -34,13 +34,13 @@
           }
         </div>
 
-        @let titleRef = editForm.get('title')!;
+        @let tituloRef = editForm.get('titulo')!;
         <div class="mb-3">
-          <label class="form-label" for="field_title" jhiTranslate="backendApp.event.title">Title</label>
-          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
-          @if (titleRef.invalid && (titleRef.dirty || titleRef.touched)) {
+          <label class="form-label" for="field_titulo" jhiTranslate="backendApp.event.titulo">Titulo</label>
+          <input type="text" class="form-control" name="titulo" id="field_titulo" data-cy="titulo" formControlName="titulo" />
+          @if (tituloRef.invalid && (tituloRef.dirty || tituloRef.touched)) {
             <div>
-              @if (editForm.get('title')?.errors?.required) {
+              @if (editForm.get('titulo')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
               }
             </div>
@@ -48,8 +48,8 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="field_subtitle" jhiTranslate="backendApp.event.subtitle">Subtitle</label>
-          <input type="text" class="form-control" name="subtitle" id="field_subtitle" data-cy="subtitle" formControlName="subtitle" />
+          <label class="form-label" for="field_resumen" jhiTranslate="backendApp.event.resumen">Resumen</label>
+          <input type="text" class="form-control" name="resumen" id="field_resumen" data-cy="resumen" formControlName="resumen" />
         </div>
 
         @let fechaRef = editForm.get('fecha')!;
@@ -93,34 +93,51 @@
           />
         </div>
 
-        @let filasRef = editForm.get('filas')!;
+        @let filaAsientosRef = editForm.get('filaAsientos')!;
         <div class="mb-3">
-          <label class="form-label" for="field_filas" jhiTranslate="backendApp.event.filas">Filas</label>
-          <input type="number" class="form-control" name="filas" id="field_filas" data-cy="filas" formControlName="filas" />
-          @if (filasRef.invalid && (filasRef.dirty || filasRef.touched)) {
+          <label class="form-label" for="field_filaAsientos" jhiTranslate="backendApp.event.filaAsientos">Fila Asientos</label>
+          <input
+            type="number"
+            class="form-control"
+            name="filaAsientos"
+            id="field_filaAsientos"
+            data-cy="filaAsientos"
+            formControlName="filaAsientos"
+          />
+          @if (filaAsientosRef.invalid && (filaAsientosRef.dirty || filaAsientosRef.touched)) {
             <div>
-              @if (editForm.get('filas')?.errors?.required) {
+              @if (editForm.get('filaAsientos')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
               }
-              <small class="form-text text-danger" [hidden]="!editForm.get('filas')?.errors?.number" jhiTranslate="entity.validation.number"
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('filaAsientos')?.errors?.number"
+                jhiTranslate="entity.validation.number"
                 >Este campo debe ser un número.</small
               >
             </div>
           }
         </div>
 
-        @let columnasRef = editForm.get('columnas')!;
+        @let columnaAsientosRef = editForm.get('columnaAsientos')!;
         <div class="mb-3">
-          <label class="form-label" for="field_columnas" jhiTranslate="backendApp.event.columnas">Columnas</label>
-          <input type="number" class="form-control" name="columnas" id="field_columnas" data-cy="columnas" formControlName="columnas" />
-          @if (columnasRef.invalid && (columnasRef.dirty || columnasRef.touched)) {
+          <label class="form-label" for="field_columnaAsientos" jhiTranslate="backendApp.event.columnaAsientos">Columna Asientos</label>
+          <input
+            type="number"
+            class="form-control"
+            name="columnaAsientos"
+            id="field_columnaAsientos"
+            data-cy="columnaAsientos"
+            formControlName="columnaAsientos"
+          />
+          @if (columnaAsientosRef.invalid && (columnaAsientosRef.dirty || columnaAsientosRef.touched)) {
             <div>
-              @if (editForm.get('columnas')?.errors?.required) {
+              @if (editForm.get('columnaAsientos')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
               }
               <small
                 class="form-text text-danger"
-                [hidden]="!editForm.get('columnas')?.errors?.number"
+                [hidden]="!editForm.get('columnaAsientos')?.errors?.number"
                 jhiTranslate="entity.validation.number"
                 >Este campo debe ser un número.</small
               >
@@ -137,6 +154,94 @@
             id="field_tipoEvento"
             data-cy="tipoEvento"
             formControlName="tipoEvento"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_direccion" jhiTranslate="backendApp.event.direccion">Direccion</label>
+          <input type="text" class="form-control" name="direccion" id="field_direccion" data-cy="direccion" formControlName="direccion" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_imagen" jhiTranslate="backendApp.event.imagen">Imagen</label>
+          <input type="text" class="form-control" name="imagen" id="field_imagen" data-cy="imagen" formControlName="imagen" />
+        </div>
+
+        @let precioEntradaRef = editForm.get('precioEntrada')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_precioEntrada" jhiTranslate="backendApp.event.precioEntrada">Precio Entrada</label>
+          <input
+            type="number"
+            class="form-control"
+            name="precioEntrada"
+            id="field_precioEntrada"
+            data-cy="precioEntrada"
+            formControlName="precioEntrada"
+          />
+          @if (precioEntradaRef.invalid && (precioEntradaRef.dirty || precioEntradaRef.touched)) {
+            <div>
+              @if (editForm.get('precioEntrada')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('precioEntrada')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let tipoNombreRef = editForm.get('tipoNombre')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_tipoNombre" jhiTranslate="backendApp.event.tipoNombre">Tipo Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tipoNombre"
+            id="field_tipoNombre"
+            data-cy="tipoNombre"
+            formControlName="tipoNombre"
+          />
+          @if (tipoNombreRef.invalid && (tipoNombreRef.dirty || tipoNombreRef.touched)) {
+            <div>
+              @if (editForm.get('tipoNombre')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let tipoDescripcionRef = editForm.get('tipoDescripcion')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_tipoDescripcion" jhiTranslate="backendApp.event.tipoDescripcion">Tipo Descripcion</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tipoDescripcion"
+            id="field_tipoDescripcion"
+            data-cy="tipoDescripcion"
+            formControlName="tipoDescripcion"
+          />
+          @if (tipoDescripcionRef.invalid && (tipoDescripcionRef.dirty || tipoDescripcionRef.touched)) {
+            <div>
+              @if (editForm.get('tipoDescripcion')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_integrantes" jhiTranslate="backendApp.event.integrantes">Integrantes</label>
+          <input
+            type="text"
+            class="form-control"
+            name="integrantes"
+            id="field_integrantes"
+            data-cy="integrantes"
+            formControlName="integrantes"
           />
         </div>
       </div>

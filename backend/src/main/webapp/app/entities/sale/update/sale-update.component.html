@@ -108,16 +108,26 @@
           }
         </div>
 
-        @let totalRef = editForm.get('total')!;
+        @let precioVentaRef = editForm.get('precioVenta')!;
         <div class="mb-3">
-          <label class="form-label" for="field_total" jhiTranslate="backendApp.sale.total">Total</label>
-          <input type="number" class="form-control" name="total" id="field_total" data-cy="total" formControlName="total" />
-          @if (totalRef.invalid && (totalRef.dirty || totalRef.touched)) {
+          <label class="form-label" for="field_precioVenta" jhiTranslate="backendApp.sale.precioVenta">Precio Venta</label>
+          <input
+            type="number"
+            class="form-control"
+            name="precioVenta"
+            id="field_precioVenta"
+            data-cy="precioVenta"
+            formControlName="precioVenta"
+          />
+          @if (precioVentaRef.invalid && (precioVentaRef.dirty || precioVentaRef.touched)) {
             <div>
-              @if (editForm.get('total')?.errors?.required) {
+              @if (editForm.get('precioVenta')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
               }
-              <small class="form-text text-danger" [hidden]="!editForm.get('total')?.errors?.number" jhiTranslate="entity.validation.number"
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('precioVenta')?.errors?.number"
+                jhiTranslate="entity.validation.number"
                 >Este campo debe ser un número.</small
               >
             </div>
@@ -133,6 +143,57 @@
               @if (editForm.get('estado')?.errors?.required) {
                 <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
               }
+            </div>
+          }
+        </div>
+
+        @let resultadoRef = editForm.get('resultado')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_resultado" jhiTranslate="backendApp.sale.resultado">Resultado</label>
+          <input type="checkbox" class="form-check" name="resultado" id="field_resultado" data-cy="resultado" formControlName="resultado" />
+          @if (resultadoRef.invalid && (resultadoRef.dirty || resultadoRef.touched)) {
+            <div>
+              @if (editForm.get('resultado')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_descripcion" jhiTranslate="backendApp.sale.descripcion">Descripcion</label>
+          <input
+            type="text"
+            class="form-control"
+            name="descripcion"
+            id="field_descripcion"
+            data-cy="descripcion"
+            formControlName="descripcion"
+          />
+        </div>
+
+        @let cantidadAsientosRef = editForm.get('cantidadAsientos')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_cantidadAsientos" jhiTranslate="backendApp.sale.cantidadAsientos">Cantidad Asientos</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cantidadAsientos"
+            id="field_cantidadAsientos"
+            data-cy="cantidadAsientos"
+            formControlName="cantidadAsientos"
+          />
+          @if (cantidadAsientosRef.invalid && (cantidadAsientosRef.dirty || cantidadAsientosRef.touched)) {
+            <div>
+              @if (editForm.get('cantidadAsientos')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('cantidadAsientos')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
             </div>
           }
         </div>

@@ -75,9 +75,9 @@
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
             </th>
-            <th scope="col" jhiSortBy="total">
+            <th scope="col" jhiSortBy="precioVenta">
               <div class="d-flex">
-                <span jhiTranslate="backendApp.sale.total">Total</span>
+                <span jhiTranslate="backendApp.sale.precioVenta">Precio Venta</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -85,6 +85,27 @@
             <th scope="col" jhiSortBy="estado">
               <div class="d-flex">
                 <span jhiTranslate="backendApp.sale.estado">Estado</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="resultado">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.sale.resultado">Resultado</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="descripcion">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.sale.descripcion">Descripcion</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="cantidadAsientos">
+              <div class="d-flex">
+                <span jhiTranslate="backendApp.sale.cantidadAsientos">Cantidad Asientos</span>
 
                 <fa-icon class="p-1" icon="sort"></fa-icon>
               </div>
@@ -103,8 +124,11 @@
               <td>{{ sale.fechaVenta | formatMediumDatetime }}</td>
               <td>{{ sale.asientos }}</td>
               <td>{{ sale.nombres }}</td>
-              <td>{{ sale.total }}</td>
+              <td>{{ sale.precioVenta }}</td>
               <td>{{ sale.estado }}</td>
+              <td>{{ sale.resultado }}</td>
+              <td>{{ sale.descripcion }}</td>
+              <td>{{ sale.cantidadAsientos }}</td>
               <td class="text-end">
                 <div class="btn-group">
                   <a [routerLink]="['/sale', sale.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

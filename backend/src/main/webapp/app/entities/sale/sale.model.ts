@@ -7,8 +7,11 @@ export interface ISale {
   fechaVenta?: dayjs.Dayjs | null;
   asientos?: string | null;
   nombres?: string | null;
-  total?: number | null;
+  precioVenta?: number | null;
   estado?: string | null;
+  resultado?: boolean | null;
+  descripcion?: string | null;
+  cantidadAsientos?: number | null;
 }
 
 export type NewSale = Omit<ISale, 'id'> & { id: null };

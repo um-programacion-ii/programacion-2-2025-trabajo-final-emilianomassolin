@@ -29,10 +29,19 @@
             <column name="nombres" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="total" type="double">
+            <column name="precio_venta" type="double">
                 <constraints nullable="false" />
             </column>
             <column name="estado" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="resultado" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="descripcion" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="cantidad_asientos" type="integer">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -62,8 +71,11 @@
             <column name="fecha_venta" type="date"/>
             <column name="asientos" type="string"/>
             <column name="nombres" type="string"/>
-            <column name="total" type="numeric"/>
+            <column name="precio_venta" type="numeric"/>
             <column name="estado" type="string"/>
+            <column name="resultado" type="boolean"/>
+            <column name="descripcion" type="string"/>
+            <column name="cantidad_asientos" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

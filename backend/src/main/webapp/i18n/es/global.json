@@ -9,7 +9,9 @@
         "main": "Entidades",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "event": "Event",
-        "sale": "Sale"
+        "sale": "Sale",
+        "seatSelection": "Seat Selection",
+        "userSession": "User Session"
       },
       "account": {
         "main": "Cuenta",
