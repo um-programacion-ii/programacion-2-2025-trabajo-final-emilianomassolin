@@ -9,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 
 /**
  * Service Implementation for managing {@link com.mycompany.myapp.domain.SeatSelection}.
@@ -113,4 +116,34 @@ public class SeatSelectionService {
         LOG.debug("Request to delete SeatSelection : {}", id);
         seatSelectionRepository.deleteById(id);
     }
+    /**
+     * Crea o actualiza la selección de asientos para un usuario en un evento.
+     * - Si ya existe una selección para (eventId, userLogin), la reemplaza.
+     * - Si no existe, crea una nueva.
+     * - La expiración se fija a ahora + 5 minutos.
+     *
+     * @param eventId     id del evento
+     * @param userLogin   login del usuario
+     * @param asientosStr representación textual de los asientos (ej: "(1,1),(1,2)")
+     * @return la SeatSelection guardada
+     */
+    public SeatSelection createOrUpdateSelection(Long eventId, String userLogin, String asientosStr) {
+        LOG.debug("createOrUpdateSelection eventId={}, userLogin={}, asientos={}", eventId, userLogin, asientosStr);
+
+        Instant ahora = Instant.now();
+        Instant expiracion = ahora.plus(5, ChronoUnit.MINUTES);
+
+        Optional<SeatSelection> existingOpt = seatSelectionRepository.findByEventIdAndUserLogin(eventId, userLogin);
+
+        SeatSelection selection = existingOpt.orElseGet(SeatSelection::new);
+
+        selection.setEventId(eventId);
+        selection.setUserLogin(userLogin);
+        selection.setAsientos(asientosStr);
+        selection.setFechaSeleccion(ahora);
+        selection.setExpiracion(expiracion);
+
+        return seatSelectionRepository.save(selection);
+    }
+
 }

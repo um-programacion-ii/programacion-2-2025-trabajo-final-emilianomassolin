@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.mycompany.myapp.service.dto.catedra.VentaRequestCatedraDTO;
 import com.mycompany.myapp.service.dto.catedra.VentaResponseCatedraDTO;
+import com.mycompany.myapp.service.dto.catedra.BloqueoAsientosRequestDTO;
+import com.mycompany.myapp.service.dto.catedra.BloqueoAsientosResponseDTO;
+
 
 
 @Service
@@ -64,5 +67,14 @@ public class CatedraService {
             VentaResponseCatedraDTO.class
         );
     }
+    public BloqueoAsientosResponseDTO bloquearAsientos(BloqueoAsientosRequestDTO request) {
+        log.debug("Llamando a cátedra: /api/endpoints/v1/bloquear-asientos, request={}", request);
+        return catedraRestTemplate.postForObject(
+            "/api/endpoints/v1/bloquear-asientos",
+            request,
+            BloqueoAsientosResponseDTO.class
+        );
+    }
+
 
 }
