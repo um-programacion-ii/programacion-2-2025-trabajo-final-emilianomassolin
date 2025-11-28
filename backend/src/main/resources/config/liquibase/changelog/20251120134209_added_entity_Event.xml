@@ -41,7 +41,7 @@
             <column name="direccion" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="imagen" type="varchar(255)">
+            <column name="imagen" type="varchar(1024)">
                 <constraints nullable="true" />
             </column>
             <column name="precio_entrada" type="double">

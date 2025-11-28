@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
+import com.mycompany.myapp.service.EventSyncService;
 
 /**
  * REST controller for managing {@link com.mycompany.myapp.domain.Event}.
@@ -41,11 +42,14 @@ public class EventResource {
     private final EventService eventService;
 
     private final EventRepository eventRepository;
+    private final EventSyncService eventSyncService;
 
-    public EventResource(EventService eventService, EventRepository eventRepository) {
+    public EventResource(EventService eventService, EventRepository eventRepository, EventSyncService eventSyncService) {
         this.eventService = eventService;
         this.eventRepository = eventRepository;
+        this.eventSyncService = eventSyncService;
     }
+
 
     /**
      * {@code POST  /events} : Create a new event.
@@ -174,4 +178,16 @@ public class EventResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+    /**
+     * {@code POST  /events/sync-from-catedra} : sincroniza los eventos desde el servicio de la cátedra.
+     *
+     * @return lista de eventos locales después de la sincronización.
+     */
+    @PostMapping("/sync-from-catedra")
+    public ResponseEntity<List<Event>> syncFromCatedra() {
+        LOG.debug("REST request to sync Events from catedra");
+        List<Event> events = eventSyncService.syncFromCatedra();
+        return ResponseEntity.ok(events);
+    }
+
 }

@@ -56,7 +56,7 @@ public class Event implements Serializable {
     @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "imagen")
+    @Column(name = "imagen", length = 1024)
     private String imagen;
 
     @NotNull

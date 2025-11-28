@@ -61,7 +61,7 @@ spring:
     cache: false
 
 server:
-  port: 8080
+  port: 8081
   # make sure requests the proxy uri instead of the server one
   forward-headers-strategy: native
 
@@ -96,7 +96,7 @@ jhipster:
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8080
+    base-url: http://127.0.0.1:8081
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
@@ -104,6 +104,11 @@ jhipster:
       host: localhost
       port: 5000
       ring-buffer-size: 512
+app:
+  catedra:
+    base-url: "http://192.168.194.250:8080"
+    token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWktYmFja2VuZCIsImV4cCI6MTc2Njc4MjIzOSwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTc2NDE5MDIzOX0.YhtG5u5qq8cmppASRqIDu_36mfWI1JXUVsitw4Q1NewbfP15GDD__m2Al1XyS5uv3-UrCunn9dnCc5v4MZENgA"
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
