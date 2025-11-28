@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (seatSelection(); as seatSelectionRef) {
+      <div>
+        <h2 data-cy="seatSelectionDetailsHeading"><span jhiTranslate="backendApp.seatSelection.detail.title">Seat Selection</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ seatSelectionRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.seatSelection.eventId">Event Id</span></dt>
+          <dd>
+            <span>{{ seatSelectionRef.eventId }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.seatSelection.userLogin">User Login</span></dt>
+          <dd>
+            <span>{{ seatSelectionRef.userLogin }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.seatSelection.asientos">Asientos</span></dt>
+          <dd>
+            <span>{{ seatSelectionRef.asientos }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.seatSelection.fechaSeleccion">Fecha Seleccion</span></dt>
+          <dd>
+            <span>{{ seatSelectionRef.fechaSeleccion | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.seatSelection.expiracion">Expiracion</span></dt>
+          <dd>
+            <span>{{ seatSelectionRef.expiracion | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/seat-selection', seatSelectionRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

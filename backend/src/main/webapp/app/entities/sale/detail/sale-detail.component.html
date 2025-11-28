@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (sale(); as saleRef) {
+      <div>
+        <h2 data-cy="saleDetailsHeading"><span jhiTranslate="backendApp.sale.detail.title">Sale</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ saleRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.ventaId">Venta Id</span></dt>
+          <dd>
+            <span>{{ saleRef.ventaId }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.eventId">Event Id</span></dt>
+          <dd>
+            <span>{{ saleRef.eventId }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.fechaVenta">Fecha Venta</span></dt>
+          <dd>
+            <span>{{ saleRef.fechaVenta | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.asientos">Asientos</span></dt>
+          <dd>
+            <span>{{ saleRef.asientos }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.nombres">Nombres</span></dt>
+          <dd>
+            <span>{{ saleRef.nombres }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.precioVenta">Precio Venta</span></dt>
+          <dd>
+            <span>{{ saleRef.precioVenta }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.estado">Estado</span></dt>
+          <dd>
+            <span>{{ saleRef.estado }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.resultado">Resultado</span></dt>
+          <dd>
+            <span>{{ saleRef.resultado }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.descripcion">Descripcion</span></dt>
+          <dd>
+            <span>{{ saleRef.descripcion }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.sale.cantidadAsientos">Cantidad Asientos</span></dt>
+          <dd>
+            <span>{{ saleRef.cantidadAsientos }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/sale', saleRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

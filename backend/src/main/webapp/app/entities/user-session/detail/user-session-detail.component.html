@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (userSession(); as userSessionRef) {
+      <div>
+        <h2 data-cy="userSessionDetailsHeading"><span jhiTranslate="backendApp.userSession.detail.title">User Session</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ userSessionRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.userSession.userLogin">User Login</span></dt>
+          <dd>
+            <span>{{ userSessionRef.userLogin }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.userSession.step">Step</span></dt>
+          <dd>
+            <span>{{ userSessionRef.step }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.userSession.eventId">Event Id</span></dt>
+          <dd>
+            <span>{{ userSessionRef.eventId }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.userSession.asientos">Asientos</span></dt>
+          <dd>
+            <span>{{ userSessionRef.asientos }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.userSession.nombres">Nombres</span></dt>
+          <dd>
+            <span>{{ userSessionRef.nombres }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.userSession.updatedAt">Updated At</span></dt>
+          <dd>
+            <span>{{ userSessionRef.updatedAt | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/user-session', userSessionRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>
