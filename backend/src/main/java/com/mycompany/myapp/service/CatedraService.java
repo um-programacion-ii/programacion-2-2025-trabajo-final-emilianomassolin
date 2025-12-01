@@ -9,6 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import com.mycompany.myapp.service.dto.catedra.VentaRequestCatedraDTO;
+import com.mycompany.myapp.service.dto.catedra.VentaResponseCatedraDTO;
+import com.mycompany.myapp.service.dto.catedra.BloqueoAsientosRequestDTO;
+import com.mycompany.myapp.service.dto.catedra.BloqueoAsientosResponseDTO;
+
+
 
 @Service
 public class CatedraService {
@@ -53,4 +59,22 @@ public class CatedraService {
             id
         );
     }
+    public VentaResponseCatedraDTO realizarVenta(VentaRequestCatedraDTO request) {
+        log.debug("Llamando a cátedra: /api/endpoints/v1/realizar-venta, request={}", request);
+        return catedraRestTemplate.postForObject(
+            "/api/endpoints/v1/realizar-venta",
+            request,
+            VentaResponseCatedraDTO.class
+        );
+    }
+    public BloqueoAsientosResponseDTO bloquearAsientos(BloqueoAsientosRequestDTO request) {
+        log.debug("Llamando a cátedra: /api/endpoints/v1/bloquear-asientos, request={}", request);
+        return catedraRestTemplate.postForObject(
+            "/api/endpoints/v1/bloquear-asientos",
+            request,
+            BloqueoAsientosResponseDTO.class
+        );
+    }
+
+
 }
