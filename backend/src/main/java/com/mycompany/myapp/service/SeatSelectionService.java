@@ -145,5 +145,26 @@ public class SeatSelectionService {
 
         return seatSelectionRepository.save(selection);
     }
+    @Transactional(readOnly = true)
+    public Optional<SeatSelection> findActiveSelection(Long eventId, String userLogin) {
+        LOG.debug("findActiveSelection eventId={}, userLogin={}", eventId, userLogin);
+
+        Optional<SeatSelection> selectionOpt =
+            seatSelectionRepository.findByEventIdAndUserLogin(eventId, userLogin);
+        if (selectionOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        SeatSelection selection = selectionOpt.get();
+        Instant ahora = Instant.now();
+
+        if (selection.getExpiracion() != null && selection.getExpiracion().isBefore(ahora)) {
+            LOG.debug("SeatSelection expirada para eventId={}, userLogin={}", eventId, userLogin);
+            return Optional.empty();
+        }
+
+        return Optional.of(selection);
+    }
+
 
 }
