@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: proxy-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${PROXY_KAFKA_GROUP_ID:emiliano-massolin-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      # password: ${REDIS_PASSWORD:}
+      # database: 0
+
+proxy:
+  backend:
+    base-url: ${BACKEND_BASE_URL:http://localhost:8081}
+    # Por defecto usamos el /api/events/sync-from-catedra del backend,
+    # pero lo podés cambiar a /api/eventos/sync-from-catedra si lo tenés así.
+    sync-events-path: ${BACKEND_SYNC_EVENTS_PATH:/api/events/sync-from-catedra}
+    # Si más adelante protegés tu backend con JWT entre servicios, seteás este token.
+    auth-token: ${BACKEND_SERVICE_TOKEN:}
+
+  kafka:
+    event-topic: ${CATEDRA_KAFKA_TOPIC:eventos-catedra}
+
+  redis:
+    # Prefijo de claves que usa la cátedra para los asientos (lo ajustamos cuando sepamos el formato real)
+    seat-key-prefix: ${CATEDRA_REDIS_SEAT_PREFIX:evento}
