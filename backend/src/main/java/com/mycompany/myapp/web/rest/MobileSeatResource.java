@@ -35,7 +35,7 @@ public class MobileSeatResource {
     public ResponseEntity<SeatMapDTO> getSeatMap(@PathVariable Long eventId) {
         log.debug("REST request to get seat map for eventId (cátedra) {}", eventId);
 
-        Optional<Event> eventOpt = eventRepository.findOneByEventId(eventId);
+        Optional<Event> eventOpt = eventRepository.findByEventId(eventId);
         if (eventOpt.isEmpty()) {
             log.warn("No se encontró Event local con eventId={}", eventId);
             return ResponseEntity.notFound().build();

@@ -40,7 +40,7 @@ public class EventSyncService {
                 continue;
             }
 
-            Optional<Event> opt = eventRepository.findOneByEventId(catedraId);
+            Optional<Event> opt = eventRepository.findByEventId(catedraId);
             Event event = opt.orElseGet(Event::new);
 
             if (event.getId() == null) {

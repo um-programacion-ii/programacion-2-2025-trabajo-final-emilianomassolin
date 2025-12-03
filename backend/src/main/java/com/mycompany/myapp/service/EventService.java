@@ -140,4 +140,16 @@ public class EventService {
         LOG.debug("Request to delete Event : {}", id);
         eventRepository.deleteById(id);
     }
+    /**
+     * Get one event by eventId (ID de la cátedra).
+     *
+     * @param eventId the eventId of the entity.
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<Event> findByEventId(Long eventId) {
+        LOG.debug("Request to get Event by eventId : {}", eventId);
+        return eventRepository.findByEventId(eventId);
+    }
+
 }
