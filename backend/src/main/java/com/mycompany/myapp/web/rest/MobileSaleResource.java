@@ -5,21 +5,29 @@ import com.mycompany.myapp.domain.SeatSelection;
 import com.mycompany.myapp.service.SaleService;
 import com.mycompany.myapp.service.SeatSelectionService;
 import com.mycompany.myapp.service.dto.catedra.VentaRequestCatedraDTO;
+import com.mycompany.myapp.service.dto.mobile.SeatSelectionMobileDTO;
 import com.mycompany.myapp.service.dto.mobile.VentaMobileRequestDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import com.mycompany.myapp.service.dto.mobile.SeatSelectionMobileDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
-
+/**
+ * Recurso REST "mobile" para el flujo de venta:
+ * - Bloqueo (en otro endpoint)
+ * - Selección actual
+ * - Venta usando SeatSelection + personas
+ * - Listado de ventas, detalle y reintentos.
+ */
 @RestController
 @RequestMapping("/api/mobile")
 public class MobileSaleResource {
@@ -34,6 +42,9 @@ public class MobileSaleResource {
         this.seatSelectionService = seatSelectionService;
     }
 
+    // ==========================
+    // 1) Venta mobile
+    // ==========================
     @PostMapping("/venta")
     public ResponseEntity<?> realizarVenta(@RequestBody VentaMobileRequestDTO request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -41,33 +52,33 @@ public class MobileSaleResource {
 
         LOG.debug("API mobile: realizar venta. Usuario={}, request={}", username, request);
 
-        // 1) Buscar selección ACTIVA para (evento, usuario)
-        Optional<SeatSelection> selectionOpt =
-            seatSelectionService.findActiveSelection(request.getEventoId(), username);
+        // 1) Buscar selección ACTIVA para (eventoId de la CÁTEDRA, usuario)
+        Optional<SeatSelection> selectionOpt = seatSelectionService.findActiveSelection(request.getEventoId(), username);
 
         if (selectionOpt.isEmpty()) {
-            return ResponseEntity.badRequest().body("No hay asientos bloqueados para este evento o la selección expiró");
+            return ResponseEntity.badRequest().body("No hay asientos bloqueados para este evento o la selección expiró.");
         }
 
         SeatSelection selection = selectionOpt.get();
 
-        // 2) Parsear asientos guardados en SeatSelection (string tipo "(1,1),(1,2)")
+        // 2) Parsear asientos guardados en SeatSelection (string tipo "(1,3),(1,4)")
         List<PosicionAsiento> posiciones = parsearAsientos(selection.getAsientos());
 
         if (posiciones.isEmpty()) {
-            return ResponseEntity.badRequest().body("La selección de asientos está vacía");
+            return ResponseEntity.badRequest().body("La selección de asientos está vacía.");
         }
 
         if (request.getPersonas() == null || request.getPersonas().isEmpty()) {
-            return ResponseEntity.badRequest().body("Debe enviar la lista de personas");
+            return ResponseEntity.badRequest().body("Debe enviar la lista de personas.");
         }
 
         if (request.getPersonas().size() != posiciones.size()) {
-            return ResponseEntity.badRequest().body("La cantidad de personas no coincide con la cantidad de asientos");
+            return ResponseEntity.badRequest().body("La cantidad de personas no coincide con la cantidad de asientos.");
         }
 
         // 3) Armar VentaRequestCatedraDTO a partir de SeatSelection + personas
         VentaRequestCatedraDTO ventaRequest = new VentaRequestCatedraDTO();
+        // IMPORTANTE: este eventoId es el de la CÁTEDRA (1, 2, ...)
         ventaRequest.setEventoId(request.getEventoId());
         ventaRequest.setFecha(request.getFecha());
         ventaRequest.setPrecioVenta(request.getPrecioVenta());
@@ -79,8 +90,8 @@ public class MobileSaleResource {
             String persona = request.getPersonas().get(i);
 
             VentaRequestCatedraDTO.AsientoVentaDTO asientoDto = new VentaRequestCatedraDTO.AsientoVentaDTO();
-            asientoDto.setFila(pos.getFila());       // int -> Integer (autobox)
-            asientoDto.setColumna(pos.getColumna()); // int -> Integer
+            asientoDto.setFila(pos.getFila());
+            asientoDto.setColumna(pos.getColumna());
             asientoDto.setPersona(persona);
 
             asientosVenta.add(asientoDto);
@@ -88,10 +99,12 @@ public class MobileSaleResource {
 
         ventaRequest.setAsientos(asientosVenta);
 
-        // 4) Ejecutar la venta contra la cátedra (igual que antes)
+        LOG.debug("Enviando venta a cátedra: {}", ventaRequest);
+
+        // 4) Ejecutar la venta contra la cátedra
         Sale sale = saleService.realizarVentaContraCatedra(ventaRequest, username);
 
-// Si la venta fue EXITOSA, eliminamos la selección para no reusarla
+        // 5) Si la venta fue EXITOSA, eliminamos la selección para no reusarla
         if (Boolean.TRUE.equals(sale.getResultado())) {
             LOG.debug(
                 "Venta EXITOSA. Eliminando SeatSelection id={} para usuario={} evento={}",
@@ -100,15 +113,21 @@ public class MobileSaleResource {
                 request.getEventoId()
             );
             seatSelectionService.delete(selection.getId());
+        } else {
+            LOG.debug(
+                "Venta NO exitosa (estado={}). Manteniendo SeatSelection id={} para posible reintento.",
+                sale.getEstado(),
+                selection.getId()
+            );
         }
 
+        // Devolvés el Sale completo (podrías mapear a DTO si querés)
         return ResponseEntity.ok(sale);
-
     }
 
     /**
-     * Parsea un string tipo "(1,1),(1,2)" a lista de posiciones.
-     * Ajustá esto si tu formato de asientos es distinto.
+     * Parsea un string tipo "(1,3),(1,4)" a lista de posiciones (fila, columna).
+     * Formato esperado: lista de pares entre paréntesis separados por coma.
      */
     private List<PosicionAsiento> parsearAsientos(String asientosString) {
         List<PosicionAsiento> result = new ArrayList<>();
@@ -116,25 +135,27 @@ public class MobileSaleResource {
             return result;
         }
 
-        String sinEspacios = asientosString.replace(" ", "");
-        String[] bloques = sinEspacios.split("\\),\\("); // separa "(1,1),(1,2)" en ["(1,1", "1,2)"]
+        // Usamos regex para evitar problemas de comas/espacios
+        Pattern pattern = Pattern.compile("\\((\\d+),(\\d+)\\)");
+        Matcher matcher = pattern.matcher(asientosString);
 
-        for (String b : bloques) {
-            String limpio = b.replace("(", "").replace(")", ""); // "1,1"
-            String[] partes = limpio.split(",");
-            if (partes.length == 2) {
-                try {
-                    int fila = Integer.parseInt(partes[0]);
-                    int columna = Integer.parseInt(partes[1]);
-                    result.add(new PosicionAsiento(fila, columna));
-                } catch (NumberFormatException e) {
-                    LOG.warn("No se pudo parsear asiento '{}'", b);
-                }
+        while (matcher.find()) {
+            try {
+                int fila = Integer.parseInt(matcher.group(1));
+                int columna = Integer.parseInt(matcher.group(2));
+                result.add(new PosicionAsiento(fila, columna));
+            } catch (NumberFormatException e) {
+                LOG.warn("No se pudo parsear asiento en '{}'", asientosString, e);
             }
         }
+
         return result;
     }
 
+    /**
+     * Clase interna simple para representar un asiento (fila, columna).
+     * Se usa internamente para reconstruir la selección guardada como String.
+     */
     private static class PosicionAsiento {
         private final int fila;
         private final int columna;
@@ -152,6 +173,10 @@ public class MobileSaleResource {
             return columna;
         }
     }
+
+    // ==========================
+    // 2) Selección actual
+    // ==========================
     @GetMapping("/seleccion-actual")
     public ResponseEntity<?> obtenerSeleccionActual(@RequestParam("eventoId") Long eventoId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -183,6 +208,10 @@ public class MobileSaleResource {
 
         return ResponseEntity.ok(dto);
     }
+
+    // ==========================
+    // 3) Listado y detalle de ventas
+    // ==========================
     @GetMapping("/ventas")
     public ResponseEntity<List<Sale>> listarVentasMobile(Pageable pageable) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -197,13 +226,17 @@ public class MobileSaleResource {
         return ResponseEntity.ok(page.getContent());
     }
 
-
     @GetMapping("/ventas/{id}")
     public ResponseEntity<Sale> obtenerVentaMobile(@PathVariable Long id) {
-        return saleService.findOne(id)
+        return saleService
+            .findOne(id)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    // ==========================
+    // 4) Reintentar ventas pendientes
+    // ==========================
     @PostMapping("/ventas/reintentar-pendientes")
     public ResponseEntity<List<Sale>> reintentarVentasPendientes() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -214,5 +247,4 @@ public class MobileSaleResource {
         List<Sale> actualizadas = saleService.reintentarVentasPendientes(username);
         return ResponseEntity.ok(actualizadas);
     }
-
 }
