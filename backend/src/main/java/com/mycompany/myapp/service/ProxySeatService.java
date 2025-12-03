@@ -23,11 +23,13 @@ public class ProxySeatService {
         this.proxyBaseUrl = proxyBaseUrl;
     }
 
-    public SeatMapDTO getSeatMapForEvent(Long eventoId) {
+    public SeatMapDTO getSeatMapForEvent(Long eventoId, int filas, int columnas) {
         String url = UriComponentsBuilder
             .fromHttpUrl(proxyBaseUrl)
             .path("/api/proxy/eventos/asientos")
             .queryParam("eventoId", eventoId)
+            .queryParam("filas", filas)
+            .queryParam("columnas", columnas)
             .toUriString();
 
         log.debug("Llamando al proxy para obtener mapa de asientos. URL: {}", url);
@@ -36,7 +38,6 @@ public class ProxySeatService {
             return proxyRestTemplate.getForObject(url, SeatMapDTO.class);
         } catch (RestClientException e) {
             log.error("Error llamando al proxy para evento {}: {}", eventoId, e.getMessage(), e);
-            // Podés decidir qué hacer: devolver null, tirar excepción custom, etc.
             throw e;
         }
     }

@@ -1,44 +1,51 @@
 package com.mycompany.proxy.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.proxy.service.dto.SeatDTO;
 import com.mycompany.proxy.service.dto.SeatMapDTO;
 import com.mycompany.proxy.service.dto.SeatStatus;
+import com.mycompany.proxy.service.dto.redis.RedisSeatData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SeatMapService {
 
+    private static final Logger log = LoggerFactory.getLogger(SeatMapService.class);
+
     private final StringRedisTemplate redisTemplate;
     private final String seatKeyPrefix;
+    private final ObjectMapper objectMapper;
 
-    public SeatMapService(StringRedisTemplate redisTemplate,
-                          @Value("${proxy.redis.seat-key-prefix:evento}") String seatKeyPrefix) {
+    public SeatMapService(
+        StringRedisTemplate redisTemplate,
+        @Value("${proxy.redis.seat-key-prefix:evento_}") String seatKeyPrefix,
+        ObjectMapper objectMapper
+    ) {
         this.redisTemplate = redisTemplate;
         this.seatKeyPrefix = seatKeyPrefix;
+        this.objectMapper = objectMapper;
     }
 
     /**
-     * Devuelve el mapa de asientos para un evento.
-     *
-     * Por ahora:
-     *  - genera una grilla MOCK (10x20) con estados pseudo-aleatorios.
-     *  - Más adelante se cambia la lógica para leer desde Redis de la cátedra.
+     * Construye el mapa completo de asientos:
+     * - filas/columnas vienen del backend.
+     * - Redis sólo tiene asientos Bloqueado/Vendido.
+     * - Lo que no está en Redis se considera LIBRE.
      */
-    public SeatMapDTO getSeatMapForEvent(Long eventoId) {
-        // TODO: cuando conozcamos el formato real de Redis de la cátedra,
-        //       leer filas, columnas y estados desde allí.
-        int filas = 10;
-        int columnas = 20;
+    public SeatMapDTO getSeatMapForEvent(Long eventoId, int filas, int columnas) {
+        Map<String, SeatStatus> ocupados = loadSeatsFromRedis(eventoId);
 
-        List<SeatDTO> asientos = new ArrayList<>();
+        List<SeatDTO> asientos = new ArrayList<>(filas * columnas);
         for (int f = 1; f <= filas; f++) {
             for (int c = 1; c <= columnas; c++) {
-                SeatStatus status = loadSeatStatusFromRedis(eventoId, f, c);
+                String key = f + ":" + c;
+                SeatStatus status = ocupados.getOrDefault(key, SeatStatus.LIBRE);
                 asientos.add(new SeatDTO(f, c, status));
             }
         }
@@ -47,26 +54,43 @@ public class SeatMapService {
     }
 
     /**
-     * Lógica para consultar Redis.
-     * De momento devuelve un MOCK:
-     *   - algunos ocupados, otros bloqueados, el resto libres.
+     * Lee la key evento_<ID> de Redis y devuelve un map "fila:columna" -> SeatStatus.
      */
-    private SeatStatus loadSeatStatusFromRedis(Long eventoId, int fila, int columna) {
-        // Ejemplo de posible clave:
-        //  key = "<prefix>:<eventoId>:<fila>:<columna>"
-        String key = seatKeyPrefix + ":" + eventoId + ":" + fila + ":" + columna;
+    private Map<String, SeatStatus> loadSeatsFromRedis(Long eventoId) {
+        Map<String, SeatStatus> result = new HashMap<>();
 
-        // Cuando sepas el formato real:
-        // String value = redisTemplate.opsForValue().get(key);
-        // if ("LIBRE".equalsIgnoreCase(value)) return SeatStatus.LIBRE; ...
+        String key = seatKeyPrefix + eventoId; // ejemplo: evento_1
+        String json = redisTemplate.opsForValue().get(key);
 
-        // MOCK deterministic (para poder probar la UI):
-        if ((fila + columna) % 7 == 0) {
-            return SeatStatus.OCUPADO;
+        if (json == null) {
+            log.debug("No hay datos en Redis para la key {}", key);
+            return result;
         }
-        if ((fila + columna) % 5 == 0) {
-            return SeatStatus.BLOQUEADO;
+
+        try {
+            RedisSeatData data = objectMapper.readValue(json, RedisSeatData.class);
+            if (data.getAsientos() == null) {
+                return result;
+            }
+
+            data.getAsientos().forEach(seat -> {
+                String compositeKey = seat.getFila() + ":" + seat.getColumna();
+                String estado = seat.getEstado();
+                SeatStatus status = SeatStatus.LIBRE;
+
+                if ("Bloqueado".equalsIgnoreCase(estado)) {
+                    status = SeatStatus.BLOQUEADO;
+                } else if ("Vendido".equalsIgnoreCase(estado)) {
+                    status = SeatStatus.OCUPADO;
+                }
+
+                result.put(compositeKey, status);
+            });
+
+        } catch (Exception e) {
+            log.error("Error parseando JSON de Redis para evento {}: {}", eventoId, e.getMessage(), e);
         }
-        return SeatStatus.LIBRE;
+
+        return result;
     }
 }

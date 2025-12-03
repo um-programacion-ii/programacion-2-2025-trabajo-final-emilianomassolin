@@ -6,32 +6,30 @@ spring:
     name: proxy-service
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: 192.168.194.250:9092
     consumer:
-      group-id: ${PROXY_KAFKA_GROUP_ID:emiliano-massolin-group}
+      group-id: emiliano-massolin-2025
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      # password: ${REDIS_PASSWORD:}
-      # database: 0
+      host: 192.168.194.250
+      port: 6379
+      # database: 0  # por defecto
 
 proxy:
   backend:
-    base-url: ${BACKEND_BASE_URL:http://localhost:8081}
-    # Por defecto usamos el /api/events/sync-from-catedra del backend,
-    # pero lo podés cambiar a /api/eventos/sync-from-catedra si lo tenés así.
-    sync-events-path: ${BACKEND_SYNC_EVENTS_PATH:/api/events/sync-from-catedra}
-    # Si más adelante protegés tu backend con JWT entre servicios, seteás este token.
-    auth-token: ${BACKEND_SERVICE_TOKEN:}
+    base-url: http://localhost:8081
+    sync-events-path: /api/events/sync-from-catedra
+    auth-token: ""  # vacío por ahora
 
   kafka:
-    event-topic: ${CATEDRA_KAFKA_TOPIC:eventos-catedra}
+    # IMPORTANTE: la cátedra dijo que el tópico real es "eventos-actualizacion"
+    event-topic: eventos-actualizacion
 
   redis:
-    # Prefijo de claves que usa la cátedra para los asientos (lo ajustamos cuando sepamos el formato real)
-    seat-key-prefix: ${CATEDRA_REDIS_SEAT_PREFIX:evento}
+    # La cátedra confirmó el formato:
+    # Key = "evento_<ID>"
+    seat-key-prefix: evento_

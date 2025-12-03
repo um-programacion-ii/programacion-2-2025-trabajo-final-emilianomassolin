@@ -20,14 +20,17 @@ public class SeatMapResource {
     }
 
     /**
-     * GET /api/proxy/eventos/asientos?eventoId=1
-     *
-     * Devuelve el mapa de asientos de un evento.
+     * GET /api/proxy/eventos/asientos?eventoId=1&filas=10&columnas=20
      */
     @GetMapping("/eventos/asientos")
-    public ResponseEntity<SeatMapDTO> getSeatMap(@RequestParam("eventoId") Long eventoId) {
-        log.debug("REST request to get seat map for event {}", eventoId);
-        SeatMapDTO map = seatMapService.getSeatMapForEvent(eventoId);
+    public ResponseEntity<SeatMapDTO> getSeatMap(
+        @RequestParam("eventoId") Long eventoId,
+        @RequestParam("filas") int filas,
+        @RequestParam("columnas") int columnas
+    ) {
+        log.debug("REST request to get seat map for event {} (filas={}, columnas={})",
+            eventoId, filas, columnas);
+        SeatMapDTO map = seatMapService.getSeatMapForEvent(eventoId, filas, columnas);
         return ResponseEntity.ok(map);
     }
 }
