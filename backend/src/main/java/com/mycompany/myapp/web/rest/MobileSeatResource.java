@@ -41,7 +41,11 @@ public class MobileSeatResource {
             return ResponseEntity.notFound().build();
         }
 
-        Event event = eventOpt.get();
+        // Usamos orElseThrow solo para evitar Optional.get()
+        Event event = eventOpt.orElseThrow(
+            () -> new IllegalStateException("No se encontró Event a pesar de la validación previa para eventId=" + eventId)
+        );
+
         Integer filas = event.getFilaAsientos();
         Integer columnas = event.getColumnaAsientos();
 
@@ -58,4 +62,6 @@ public class MobileSeatResource {
             return ResponseEntity.status(503).build(); // Service Unavailable
         }
     }
+
+
 }

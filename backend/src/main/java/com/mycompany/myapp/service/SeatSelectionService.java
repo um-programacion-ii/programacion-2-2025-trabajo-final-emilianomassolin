@@ -149,22 +149,19 @@ public class SeatSelectionService {
     public Optional<SeatSelection> findActiveSelection(Long eventId, String userLogin) {
         LOG.debug("findActiveSelection eventId={}, userLogin={}", eventId, userLogin);
 
-        Optional<SeatSelection> selectionOpt =
-            seatSelectionRepository.findByEventIdAndUserLogin(eventId, userLogin);
-        if (selectionOpt.isEmpty()) {
-            return Optional.empty();
-        }
-
-        SeatSelection selection = selectionOpt.get();
         Instant ahora = Instant.now();
 
-        if (selection.getExpiracion() != null && selection.getExpiracion().isBefore(ahora)) {
-            LOG.debug("SeatSelection expirada para eventId={}, userLogin={}", eventId, userLogin);
-            return Optional.empty();
-        }
-
-        return Optional.of(selection);
+        return seatSelectionRepository
+            .findByEventIdAndUserLogin(eventId, userLogin)
+            .filter(selection -> {
+                if (selection.getExpiracion() != null && selection.getExpiracion().isBefore(ahora)) {
+                    LOG.debug("SeatSelection expirada para eventId={}, userLogin={}", eventId, userLogin);
+                    return false; // se filtra y termina devolviendo Optional.empty()
+                }
+                return true;
+            });
     }
+
 
 
 }

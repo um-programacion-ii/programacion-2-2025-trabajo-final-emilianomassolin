@@ -5,7 +5,10 @@ import com.mycompany.proxy.service.dto.SeatMapDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/proxy")
@@ -28,8 +31,12 @@ public class SeatMapResource {
         @RequestParam("filas") int filas,
         @RequestParam("columnas") int columnas
     ) {
-        log.debug("REST request to get seat map for event {} (filas={}, columnas={})",
-            eventoId, filas, columnas);
+        log.debug(
+            "REST request to get seat map for event {} (filas={}, columnas={})",
+            eventoId,
+            filas,
+            columnas
+        );
         SeatMapDTO map = seatMapService.getSeatMapForEvent(eventoId, filas, columnas);
         return ResponseEntity.ok(map);
     }

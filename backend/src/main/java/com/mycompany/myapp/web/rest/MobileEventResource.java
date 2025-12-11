@@ -59,15 +59,13 @@ public class MobileEventResource {
     public ResponseEntity<MobileEventDetailDTO> obtenerEvento(@PathVariable Long id) {
         LOG.debug("API mobile: obtener evento completo (desde DB local) eventId={}", id);
 
-        Optional<Event> opt = eventService.findByEventId(id);
-        if (opt.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Event evento = opt.get();
-        MobileEventDetailDTO dto = toDetailDTO(evento);
-
-        return ResponseEntity.ok(dto);
+        return eventService
+            .findByEventId(id)
+            .map(evento -> {
+                MobileEventDetailDTO dto = toDetailDTO(evento);
+                return ResponseEntity.ok(dto);
+            })
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // ===================== Mappers =====================

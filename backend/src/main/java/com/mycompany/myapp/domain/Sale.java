@@ -25,7 +25,8 @@ public class Sale implements Serializable {
     private Long id;
 
 
-    @Column(name = "venta_id")
+    @NotNull
+    @Column(name = "venta_id", nullable = false)
     private Long ventaId;
 
     @NotNull

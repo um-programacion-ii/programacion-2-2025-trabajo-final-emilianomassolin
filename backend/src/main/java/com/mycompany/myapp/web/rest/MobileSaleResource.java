@@ -59,7 +59,10 @@ public class MobileSaleResource {
             return ResponseEntity.badRequest().body("No hay asientos bloqueados para este evento o la selección expiró.");
         }
 
-        SeatSelection selection = selectionOpt.get();
+        // Usamos orElseThrow solo para evitar Optional.get() (no debería ejecutarse nunca porque arriba validamos)
+        SeatSelection selection = selectionOpt.orElseThrow(
+            () -> new IllegalStateException("No se encontró SeatSelection activa a pesar de la validación previa")
+        );
 
         // 2) Parsear asientos guardados en SeatSelection (string tipo "(1,3),(1,4)")
         List<PosicionAsiento> posiciones = parsearAsientos(selection.getAsientos());
@@ -124,6 +127,7 @@ public class MobileSaleResource {
         // Devolvés el Sale completo (podrías mapear a DTO si querés)
         return ResponseEntity.ok(sale);
     }
+
 
     /**
      * Parsea un string tipo "(1,3),(1,4)" a lista de posiciones (fila, columna).
@@ -191,7 +195,10 @@ public class MobileSaleResource {
             return ResponseEntity.notFound().build();
         }
 
-        var selection = selectionOpt.get();
+        // De nuevo, orElseThrow solo para evitar Optional.get()
+        SeatSelection selection = selectionOpt.orElseThrow(
+            () -> new IllegalStateException("No se encontró SeatSelection activa a pesar de la validación previa")
+        );
 
         // Reusamos parsearAsientos(String)
         List<PosicionAsiento> posiciones = parsearAsientos(selection.getAsientos());

@@ -47,24 +47,7 @@ public class SaleResource {
         this.saleRepository = saleRepository;
     }
 
-    /**
-     * {@code POST  /sales} : Create a new sale.
-     *
-     * @param sale the sale to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new sale, or with status {@code 400 (Bad Request)} if the sale has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("")
-    public ResponseEntity<Sale> createSale(@Valid @RequestBody Sale sale) throws URISyntaxException {
-        LOG.debug("REST request to save Sale : {}", sale);
-        if (sale.getId() != null) {
-            throw new BadRequestAlertException("A new sale cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        sale = saleService.save(sale);
-        return ResponseEntity.created(new URI("/api/sales/" + sale.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, sale.getId().toString()))
-            .body(sale);
-    }
+
 
     /**
      * {@code PUT  /sales/:id} : Updates an existing sale.
@@ -174,4 +157,16 @@ public class SaleResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+    @PostMapping("")
+    public ResponseEntity<Sale> createSale(@Valid @RequestBody Sale sale) throws URISyntaxException {
+        LOG.debug("REST request to save Sale : {}", sale);
+        if (sale.getId() != null) {
+            throw new BadRequestAlertException("A new sale cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        sale = saleService.save(sale);
+        return ResponseEntity.created(new URI("/api/sales/" + sale.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, sale.getId().toString()))
+            .body(sale);
+    }
+
 }

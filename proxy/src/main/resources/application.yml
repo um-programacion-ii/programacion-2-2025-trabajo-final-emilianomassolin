@@ -26,10 +26,11 @@ proxy:
     auth-token: ""  # vacío por ahora
 
   kafka:
-    # IMPORTANTE: la cátedra dijo que el tópico real es "eventos-actualizacion"
     event-topic: eventos-actualizacion
 
   redis:
-    # La cátedra confirmó el formato:
-    # Key = "evento_<ID>"
     seat-key-prefix: evento_
+
+  catedra:
+    base-url: "http://192.168.194.250:8080"
+    token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWktYmFja2VuZCIsImV4cCI6MTc2Njc4MjIzOSwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTc2NDE5MDIzOX0.YhtG5u5qq8cmppASRqIDu_36mfWI1JXUVsitw4Q1NewbfP15GDD__m2Al1XyS5uv3-UrCunn9dnCc5v4MZENgA"

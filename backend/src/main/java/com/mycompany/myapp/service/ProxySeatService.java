@@ -18,7 +18,7 @@ public class ProxySeatService {
     private final String proxyBaseUrl;
 
     public ProxySeatService(RestTemplate proxyRestTemplate,
-                            @Value("${proxy.base-url}") String proxyBaseUrl) {
+                            @Value("${proxy.base-url:http://localhost:8082}") String proxyBaseUrl) {
         this.proxyRestTemplate = proxyRestTemplate;
         this.proxyBaseUrl = proxyBaseUrl;
     }
