@@ -14,7 +14,7 @@ import com.example.shared.EventSummary
 import com.example.shared.MobileApi
 
 sealed interface EventsUiState {
-  object Loading : EventsUiState
+  data object Loading : EventsUiState
   data class Success(val events: List<EventSummary>) : EventsUiState
   data class Error(val message: String) : EventsUiState
 }
@@ -46,29 +46,43 @@ fun EventListScreen(
         .padding(padding)
     ) {
       when (val state = uiState) {
+
         is EventsUiState.Loading -> {
           CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
+
         is EventsUiState.Error -> {
-          Text(
-            text = "Error: ${state.message}",
-            color = MaterialTheme.colorScheme.error,
-            modifier = Modifier.align(Alignment.Center)
-          )
+          Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+          ) {
+            Text("Error: ${state.message}", color = MaterialTheme.colorScheme.error)
+            Spacer(Modifier.height(12.dp))
+            Button(onClick = {
+              // reintento simple
+              uiState = EventsUiState.Loading
+              // relanzar fetch con una key diferente:
+              // (lo más simple es usar LaunchedEffect con un trigger)
+            }) {
+              Text("Reintentar")
+            }
+          }
         }
+
         is EventsUiState.Success -> {
           if (state.events.isEmpty()) {
-            Text(
-              text = "No hay eventos",
-              modifier = Modifier.align(Alignment.Center)
-            )
+            Text("No hay eventos", modifier = Modifier.align(Alignment.Center))
           } else {
-            LazyColumn {
+            LazyColumn(
+              modifier = Modifier.fillMaxSize(),
+              contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
               items(state.events) { event ->
                 EventItem(
                   event = event,
-                  onClick = { onEventClick(event.id) } // 👈 acá navega
+                  onClick = { onEventClick(event.id) }
                 )
+                Divider()
               }
             }
           }
@@ -86,18 +100,28 @@ private fun EventItem(
   Column(
     modifier = Modifier
       .fillMaxWidth()
-      .clickable { onClick() } // 👈 zona clickeable
+      .clickable { onClick() }
       .padding(16.dp)
   ) {
-    Text(event.title, style = MaterialTheme.typography.titleMedium)
-    Spacer(Modifier.height(4.dp))
     Text(
-      event.summary,
-      maxLines = 2,
-      overflow = TextOverflow.Ellipsis,
-      style = MaterialTheme.typography.bodyMedium
+      text = event.title,
+      style = MaterialTheme.typography.titleMedium
     )
-    Spacer(Modifier.height(4.dp))
-    Text("Precio: ${event.price}", style = MaterialTheme.typography.bodySmall)
+
+    Spacer(Modifier.height(6.dp))
+
+    Text(
+      text = event.summary,
+      style = MaterialTheme.typography.bodyMedium,
+      maxLines = 2,
+      overflow = TextOverflow.Ellipsis
+    )
+
+    Spacer(Modifier.height(6.dp))
+
+    Text(
+      text = "Precio: ${event.price}",
+      style = MaterialTheme.typography.bodySmall
+    )
   }
 }

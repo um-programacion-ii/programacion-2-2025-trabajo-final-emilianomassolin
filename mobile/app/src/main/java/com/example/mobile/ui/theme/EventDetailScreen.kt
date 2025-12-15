@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.shared.EventDetail
 import com.example.shared.MobileApi
+import kotlinx.coroutines.launch
 
 sealed interface EventDetailUiState {
   object Loading : EventDetailUiState
@@ -20,9 +21,12 @@ sealed interface EventDetailUiState {
 fun EventDetailScreen(
   api: MobileApi,
   eventId: Long,
-  onBack: () -> Unit
+  onBack: () -> Unit,
+  onViewSeats: (Long) -> Unit,
+  onResumeSelection: (Long, List<Pair<Int, Int>>, String?) -> Unit   // ✅ ahora lleva expiresAt
 ) {
   var uiState by remember { mutableStateOf<EventDetailUiState>(EventDetailUiState.Loading) }
+  val scope = rememberCoroutineScope()
 
   LaunchedEffect(eventId) {
     uiState = EventDetailUiState.Loading
@@ -39,9 +43,7 @@ fun EventDetailScreen(
       TopAppBar(
         title = { Text("Detalle") },
         navigationIcon = {
-          TextButton(onClick = onBack) {
-            Text("< Volver")
-          }
+          TextButton(onClick = onBack) { Text("< Volver") }
         }
       )
     }
@@ -53,9 +55,11 @@ fun EventDetailScreen(
         .padding(16.dp)
     ) {
       when (val state = uiState) {
+
         is EventDetailUiState.Loading -> {
           CircularProgressIndicator(Modifier.align(Alignment.Center))
         }
+
         is EventDetailUiState.Error -> {
           Text(
             text = "Error: ${state.message}",
@@ -63,11 +67,11 @@ fun EventDetailScreen(
             modifier = Modifier.align(Alignment.Center)
           )
         }
+
         is EventDetailUiState.Success -> {
           val event = state.event
-          Column(
-            modifier = Modifier.fillMaxSize()
-          ) {
+
+          Column(Modifier.fillMaxSize()) {
             Text(event.title, style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(8.dp))
             Text(event.description)
@@ -76,8 +80,27 @@ fun EventDetailScreen(
             Spacer(Modifier.height(8.dp))
             Text("Asientos: ${event.rows} filas x ${event.columns} columnas")
             Spacer(Modifier.height(8.dp))
-            event.integrantes?.let {
-              Text("Integrantes: $it")
+            event.integrantes?.let { Text("Integrantes: $it") }
+
+            Spacer(Modifier.height(24.dp))
+
+            Button(
+              onClick = {
+                scope.launch {
+                  val selection = api.getCurrentSelection(event.id)
+                  if (selection != null && selection.asientos.isNotEmpty()) {
+                    onResumeSelection(
+                      event.id,
+                      selection.asientos.map { it.fila to it.columna },
+                      selection.expiracion               // ✅ pasamos expiración
+                    )
+                  } else {
+                    onViewSeats(event.id)
+                  }
+                }
+              }
+            ) {
+              Text("Ver asientos")
             }
           }
         }
