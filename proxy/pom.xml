@@ -48,13 +48,16 @@
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
 
-    <!-- (Opcional) Security si querés meter JWT después -->
-    <!--
+
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-    -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
+
 
     <!-- Config metadata para autocompletado en IntelliJ -->
     <dependency>

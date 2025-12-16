@@ -98,9 +98,9 @@ jhipster:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
         base64-secret: OTU3YTE2Yjc1NTAxN2JiOTBiOGFhMjVkYTBiNzliNTMyMDI2ZmJkOTMxYzAwOGVhNTRhMGU1MWExMGJjMWZhZTAyOGJjMWZmODgwYzlhZGMyMGU0N2UwZGZiYjZhY2ZjNjJjNjQ4YWQ5MTkwODhiMWViOWFmZDU4MGJmZmRiMjU=
-        # Token is valid 24 hours
-        token-validity-in-seconds: 86400
-        token-validity-in-seconds-for-remember-me: 2592000
+
+        token-validity-in-seconds: 864000000
+        token-validity-in-seconds-for-remember-me: 259200000
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://127.0.0.1:8081
   logging:
@@ -113,17 +113,7 @@ jhipster:
 app:
   catedra:
     base-url: "http://192.168.194.250:8080"
-    token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWktYmFja2VuZCIsImV4cCI6MTc2Njc4MjIzOSwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTc2NDE5MDIzOX0.YhtG5u5qq8cmppASRqIDu_36mfWI1JXUVsitw4Q1NewbfP15GDD__m2Al1XyS5uv3-UrCunn9dnCc5v4MZENgA"
-
-# ===================================================================
-# Application specific properties
-# Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
-#
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
-# ===================================================================
-
-# application:
-proxy:
-  base-url: http://localhost:8082
+    token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWktYmFja2VuZCIsImV4cCI6MTg1MjIyMTE5MSwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTc2NTgyMTE5MX0.O_ZZcsDF3hfLKgOltyWnrQh1eBleIhUfvClNbYYtlJDOKmHuhxVumS1tu3zRMxIvdcs7_2G0QhBGy2oGoK7nEA"
+  proxy:
+    base-url: "http://localhost:8082"
+    token: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MjAyNTA0OTQyMSwiYXV0aCI6IlJPTEVfQURNSU4gUk9MRV9VU0VSIiwiaWF0IjoxNzY1ODQ5NDIxLCJ1c2VySWQiOjF9.ers7CQZ9z9Zc3BI4ibf7YB-48uw6jHzmTA7R2-k7HD7dj5ZdubDDxxa7ODgd7XN_r3NpLYK_dlRNMFoDLFmb1Q"

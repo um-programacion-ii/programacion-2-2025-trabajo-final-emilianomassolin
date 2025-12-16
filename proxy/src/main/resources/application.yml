@@ -5,6 +5,12 @@ spring:
   application:
     name: proxy-service
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret: OTU3YTE2Yjc1NTAxN2JiOTBiOGFhMjVkYTBiNzliNTMyMDI2ZmJkOTMxYzAwOGVhNTRhMGU1MWExMGJjMWZhZTAyOGJjMWZmODgwYzlhZGMyMGU0N2UwZGZiYjZhY2ZjNjJjNjQ4YWQ5MTkwODhiMWViOWFmZDU4MGJmZmRiMjU=
+
   kafka:
     bootstrap-servers: 192.168.194.250:9092
     consumer:
@@ -17,13 +23,12 @@ spring:
     redis:
       host: 192.168.194.250
       port: 6379
-      # database: 0  # por defecto
 
 proxy:
   backend:
     base-url: http://localhost:8081
     sync-events-path: /api/events/sync-from-catedra
-    auth-token: ""  # vacío por ahora
+    auth-token: ""
 
   kafka:
     event-topic: eventos-actualizacion

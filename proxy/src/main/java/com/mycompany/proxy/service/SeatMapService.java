@@ -78,14 +78,31 @@ public class SeatMapService {
                 String estado = seat.getEstado();
                 SeatStatus status = SeatStatus.LIBRE;
 
-                if ("Bloqueado".equalsIgnoreCase(estado)) {
-                    status = SeatStatus.BLOQUEADO;
-                } else if ("Vendido".equalsIgnoreCase(estado)) {
+                if ("Vendido".equalsIgnoreCase(estado)) {
                     status = SeatStatus.OCUPADO;
                 }
+                else if ("Bloqueado".equalsIgnoreCase(estado)) {
+                    try {
+                        if (seat.getExpira() != null) {
+                            java.time.Instant expira = java.time.Instant.parse(seat.getExpira());
+                            if (expira.isAfter(java.time.Instant.now())) {
+                                status = SeatStatus.BLOQUEADO;
+                            } else {
+                                status = SeatStatus.LIBRE;
+                            }
+                        }
+                    } catch (Exception e) {
+                        // Si hay error de parseo, por seguridad lo tratamos como LIBRE
+                        status = SeatStatus.LIBRE;
+                        log.warn("No se pudo parsear expira para asiento {}:{}",
+                            seat.getFila(), seat.getColumna());
+                    }
+                }
+
 
                 result.put(compositeKey, status);
             });
+
 
         } catch (Exception e) {
             log.error("Error parseando JSON de Redis para evento {}: {}", eventoId, e.getMessage(), e);

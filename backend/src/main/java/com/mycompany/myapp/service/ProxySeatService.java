@@ -1,9 +1,10 @@
 package com.mycompany.myapp.service;
 
+import com.mycompany.myapp.config.ProxyProperties;
 import com.mycompany.myapp.service.dto.proxy.SeatMapDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -15,27 +16,32 @@ public class ProxySeatService {
     private final Logger log = LoggerFactory.getLogger(ProxySeatService.class);
 
     private final RestTemplate proxyRestTemplate;
-    private final String proxyBaseUrl;
+    private final ProxyProperties proxyProperties;
 
-    public ProxySeatService(RestTemplate proxyRestTemplate,
-                            @Value("${proxy.base-url:http://localhost:8082}") String proxyBaseUrl) {
+    public ProxySeatService(
+        @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
+        ProxyProperties proxyProperties
+    ) {
         this.proxyRestTemplate = proxyRestTemplate;
-        this.proxyBaseUrl = proxyBaseUrl;
+        this.proxyProperties = proxyProperties;
     }
 
     public SeatMapDTO getSeatMapForEvent(Long eventoId, int filas, int columnas) {
-        String url = UriComponentsBuilder
-            .fromHttpUrl(proxyBaseUrl)
-            .path("/api/proxy/eventos/asientos")
+
+        String path = UriComponentsBuilder
+            .fromPath("/api/proxy/eventos/asientos")
             .queryParam("eventoId", eventoId)
             .queryParam("filas", filas)
             .queryParam("columnas", columnas)
             .toUriString();
 
-        log.debug("Llamando al proxy para obtener mapa de asientos. URL: {}", url);
+        String base = proxyProperties.getBaseUrl();
+
+        log.debug("Llamando al proxy para obtener mapa de asientos. base={} path={}", base, path);
 
         try {
-            return proxyRestTemplate.getForObject(url, SeatMapDTO.class);
+            // como el RestTemplate tiene rootUri, llamamos solo con el path
+            return proxyRestTemplate.getForObject(path, SeatMapDTO.class);
         } catch (RestClientException e) {
             log.error("Error llamando al proxy para evento {}: {}", eventoId, e.getMessage(), e);
             throw e;

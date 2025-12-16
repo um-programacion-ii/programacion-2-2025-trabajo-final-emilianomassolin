@@ -23,7 +23,8 @@ sealed interface EventsUiState {
 @Composable
 fun EventListScreen(
   api: MobileApi,
-  onEventClick: (Long) -> Unit
+  onEventClick: (Long) -> Unit,
+  onLogout: () -> Unit
 ) {
   var uiState by remember { mutableStateOf<EventsUiState>(EventsUiState.Loading) }
 
@@ -38,7 +39,16 @@ fun EventListScreen(
   }
 
   Scaffold(
-    topBar = { TopAppBar(title = { Text("Eventos") }) }
+    topBar = {
+      TopAppBar(
+        title = { Text("Eventos") },
+        actions = {
+          TextButton(onClick = onLogout) {
+            Text("Salir")
+          }
+        }
+      )
+    }
   ) { padding ->
     Box(
       modifier = Modifier
@@ -56,13 +66,14 @@ fun EventListScreen(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
           ) {
-            Text("Error: ${state.message}", color = MaterialTheme.colorScheme.error)
+            Text(
+              text = "Error: ${state.message}",
+              color = MaterialTheme.colorScheme.error
+            )
             Spacer(Modifier.height(12.dp))
             Button(onClick = {
-              // reintento simple
               uiState = EventsUiState.Loading
-              // relanzar fetch con una key diferente:
-              // (lo más simple es usar LaunchedEffect con un trigger)
+              // vuelve a ejecutar LaunchedEffect automáticamente
             }) {
               Text("Reintentar")
             }
