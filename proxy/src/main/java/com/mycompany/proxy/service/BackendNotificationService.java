@@ -35,7 +35,7 @@ public class BackendNotificationService {
      * Notifica al backend que hubo un cambio de evento.
      * Estrategia simple:
      *   - llama al endpoint de sincronización completa de eventos.
-     *   - más adelante se podría hacer algo más fino por eventId.
+     *   .
      */
     public void notifyBackendEventChange(EventChangeMessage msg) {
         try {
