@@ -77,7 +77,7 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/events/sync-from-catedra")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/catedra/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/catedra/**")).authenticated()
                     .requestMatchers(mvc.pattern("/api/sync/**")).permitAll()
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
                     .requestMatchers(mvc.pattern("/api/mobile/**")).authenticated()
