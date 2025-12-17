@@ -41,6 +41,8 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

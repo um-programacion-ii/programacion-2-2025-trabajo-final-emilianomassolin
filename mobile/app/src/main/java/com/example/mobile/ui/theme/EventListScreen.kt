@@ -8,8 +8,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import androidx.compose.ui.platform.LocalContext
 import com.example.shared.EventSummary
 import com.example.shared.MobileApi
 
@@ -43,9 +47,7 @@ fun EventListScreen(
       TopAppBar(
         title = { Text("Eventos") },
         actions = {
-          TextButton(onClick = onLogout) {
-            Text("Salir")
-          }
+          TextButton(onClick = onLogout) { Text("Salir") }
         }
       )
     }
@@ -71,10 +73,7 @@ fun EventListScreen(
               color = MaterialTheme.colorScheme.error
             )
             Spacer(Modifier.height(12.dp))
-            Button(onClick = {
-              uiState = EventsUiState.Loading
-              // vuelve a ejecutar LaunchedEffect automáticamente
-            }) {
+            Button(onClick = { uiState = EventsUiState.Loading }) {
               Text("Reintentar")
             }
           }
@@ -108,31 +107,51 @@ private fun EventItem(
   event: EventSummary,
   onClick: () -> Unit
 ) {
-  Column(
+  val context = LocalContext.current
+
+  Row(
     modifier = Modifier
       .fillMaxWidth()
       .clickable { onClick() }
       .padding(16.dp)
   ) {
-    Text(
-      text = event.title,
-      style = MaterialTheme.typography.titleMedium
+
+    // ✅ IMAGEN
+    AsyncImage(
+      model = ImageRequest.Builder(context)
+        // 👇 CAMBIÁ ESTA LÍNEA AL NOMBRE REAL DE TU CAMPO:
+        .data(event.imageUrl) // <- por ejemplo: event.imagen
+        .crossfade(true)
+        .build(),
+      contentDescription = null,
+      contentScale = ContentScale.Crop,
+      modifier = Modifier
+        .size(88.dp)
     )
 
-    Spacer(Modifier.height(6.dp))
+    Spacer(Modifier.width(12.dp))
 
-    Text(
-      text = event.summary,
-      style = MaterialTheme.typography.bodyMedium,
-      maxLines = 2,
-      overflow = TextOverflow.Ellipsis
-    )
+    Column(modifier = Modifier.weight(1f)) {
+      Text(
+        text = event.title,
+        style = MaterialTheme.typography.titleMedium
+      )
 
-    Spacer(Modifier.height(6.dp))
+      Spacer(Modifier.height(6.dp))
 
-    Text(
-      text = "Precio: ${event.price}",
-      style = MaterialTheme.typography.bodySmall
-    )
+      Text(
+        text = event.summary,
+        style = MaterialTheme.typography.bodyMedium,
+        maxLines = 2,
+        overflow = TextOverflow.Ellipsis
+      )
+
+      Spacer(Modifier.height(6.dp))
+
+      Text(
+        text = "Precio: ${event.price}",
+        style = MaterialTheme.typography.bodySmall
+      )
+    }
   }
 }
