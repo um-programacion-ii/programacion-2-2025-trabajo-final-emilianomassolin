@@ -16,7 +16,7 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
-    // Si necesitás password/database, se agrega config extra
+
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {

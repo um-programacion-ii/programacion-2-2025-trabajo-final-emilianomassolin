@@ -35,7 +35,7 @@ public class MobileSessionService {
             return Optional.empty();
         }
 
-        // si querés validar por expiresAt dentro del objeto, podés hacerlo aquí
+        // verificar expiración
         if (state.getExpiresAt() != null && state.getExpiresAt().isBefore(Instant.now())) {
             log.info("Sesión expirada para usuario {}, eliminando de Redis", username);
             redisTemplate.delete(key);
@@ -44,7 +44,7 @@ public class MobileSessionService {
 
         return Optional.of(state);
     }
-
+// si no existe, crea una nueva sesión, la guarda en Redis y la devuelve
     public MobileSessionState getOrCreateSession(String username) {
         return getSession(username).orElseGet(() -> {
             MobileSessionState nueva = MobileSessionState.nuevaSesion(username);
@@ -52,7 +52,7 @@ public class MobileSessionService {
             return nueva;
         });
     }
-
+// guarda o actualiza la sesión en Redis, actualizando timestamps
     public void saveSession(MobileSessionState state) {
         String key = redisKey(state.getUsername());
 
@@ -74,7 +74,7 @@ public class MobileSessionService {
         log.info("Sesión mobile eliminada para usuario {}", username);
     }
 
-    // helpers específicos para el flujo
+    // métodos para actualizar partes de la sesión
 
     public MobileSessionState actualizarSeleccionEvento(
         String username,
