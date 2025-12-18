@@ -13,7 +13,7 @@ public class EventChangeListener {
     private static final Logger log = LoggerFactory.getLogger(EventChangeListener.class);
 
     private final BackendSyncService backendSyncService;
-
+//el listener escucha cambios en eventos y delega la responsabilidad de sincronizar con el backend al servicio BackendSyncService
     public EventChangeListener(BackendSyncService backendSyncService) {
         this.backendSyncService = backendSyncService;
     }
@@ -22,6 +22,7 @@ public class EventChangeListener {
         topics = "${proxy.kafka.event-topic}",
         groupId = "${spring.kafka.consumer.group-id}"
     )
+    //metodo consumidor de mensajes Kafka
     public void onEventChange(ConsumerRecord<String, String> record) {
         String topic = record.topic();
         int partition = record.partition();
@@ -33,7 +34,7 @@ public class EventChangeListener {
             topic, partition, offset, key, value);
 
         try {
-            // Por ahora hacemos un "sync completo" de eventos en tu backend
+            // hago  un "sync completo" de eventos en tu backend
             backendSyncService.syncEventsWithBackend();
         } catch (Exception e) {
             log.error("Error al notificar al backend para sincronizar eventos", e);

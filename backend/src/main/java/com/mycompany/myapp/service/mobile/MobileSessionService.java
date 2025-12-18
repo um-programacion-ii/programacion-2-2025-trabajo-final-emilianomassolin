@@ -14,7 +14,7 @@ public class MobileSessionService {
 
     private static final Logger log = LoggerFactory.getLogger(MobileSessionService.class);
 
-    // TTL de sesión en minutos (ej: 30)
+    // TTL de sesión en minutos ( 30)
     private static final long SESSION_TTL_MINUTES = 30L;
 
     private final RedisTemplate<String, MobileSessionState> redisTemplate;

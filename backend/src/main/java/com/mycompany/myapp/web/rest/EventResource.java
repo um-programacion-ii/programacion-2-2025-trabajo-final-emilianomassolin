@@ -52,11 +52,7 @@ public class EventResource {
 
 
     /**
-     * {@code POST  /events} : Create a new event.
-     *
-     * @param event the event to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new event, or with status {@code 400 (Bad Request)} if the event has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * {@code POST  /events}
      */
     @PostMapping("")
     public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) throws URISyntaxException {
@@ -71,14 +67,7 @@ public class EventResource {
     }
 
     /**
-     * {@code PUT  /events/:id} : Updates an existing event.
-     *
-     * @param id the id of the event to save.
-     * @param event the event to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated event,
-     * or with status {@code 400 (Bad Request)} if the event is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the event couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * {@code PUT  /events/:id}
      */
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Event event)
@@ -102,15 +91,8 @@ public class EventResource {
     }
 
     /**
-     * {@code PATCH  /events/:id} : Partial updates given fields of an existing event, field will ignore if it is null
-     *
-     * @param id the id of the event to save.
-     * @param event the event to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated event,
-     * or with status {@code 400 (Bad Request)} if the event is not valid,
-     * or with status {@code 404 (Not Found)} if the event is not found,
-     * or with status {@code 500 (Internal Server Error)} if the event couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * {@code PATCH  /events/:id}
+
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Event> partialUpdateEvent(
@@ -139,9 +121,7 @@ public class EventResource {
 
     /**
      * {@code GET  /events} : get all the events.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of events in body.
+
      */
     @GetMapping("")
     public ResponseEntity<List<Event>> getAllEvents(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
@@ -153,9 +133,7 @@ public class EventResource {
 
     /**
      * {@code GET  /events/:id} : get the "id" event.
-     *
-     * @param id the id of the event to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the event, or with status {@code 404 (Not Found)}.
+
      */
     @GetMapping("/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable("id") Long id) {
@@ -166,9 +144,7 @@ public class EventResource {
 
     /**
      * {@code DELETE  /events/:id} : delete the "id" event.
-     *
-     * @param id the id of the event to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable("id") Long id) {
@@ -180,8 +156,7 @@ public class EventResource {
     }
     /**
      * {@code POST  /events/sync-from-catedra} : sincroniza los eventos desde el servicio de la cátedra.
-     *
-     * @return lista de eventos locales después de la sincronización.
+
      */
     @PostMapping("/sync-from-catedra")
     public ResponseEntity<List<Event>> syncFromCatedra() {

@@ -40,6 +40,7 @@ public class BackendSyncService {
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         try {
+            // Realizo la llamada POST al backend para sincronizar eventos y el backend se encarga del resto
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
             log.info("✅ Sync eventos en backend OK. status={}, body={}", response.getStatusCode(), response.getBody());
         } catch (Exception e) {
