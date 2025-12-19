@@ -77,10 +77,10 @@ public class SecurityConfiguration {
                     .requestMatchers(mvc.pattern("/api/account/reset-password/init")).permitAll()
                     .requestMatchers(mvc.pattern("/api/account/reset-password/finish")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/api/events/sync-from-catedra")).permitAll()
-                    .requestMatchers(mvc.pattern("/api/catedra/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/catedra/**")).authenticated()
                     .requestMatchers(mvc.pattern("/api/sync/**")).permitAll()
                     .requestMatchers(mvc.pattern("/api/admin/**")).hasAuthority(AuthoritiesConstants.ADMIN)
-                    .requestMatchers(mvc.pattern("/api/mobile/**")).permitAll()
+                    .requestMatchers(mvc.pattern("/api/mobile/**")).authenticated()
                     .requestMatchers(mvc.pattern("/api/**")).authenticated()
                     .requestMatchers(mvc.pattern("/v3/api-docs/**")).hasAuthority(AuthoritiesConstants.ADMIN)
 

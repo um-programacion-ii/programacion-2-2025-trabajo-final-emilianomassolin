@@ -32,7 +32,7 @@ public class EventSyncService {
         log.info("Sincronizando eventos desde cátedra...");
 
         List<EventoCompletoDTO> eventosCatedra = catedraService.obtenerEventosCompletos();
-        Instant ahora = Instant.now();
+
 
         for (EventoCompletoDTO dto : eventosCatedra) {
             Long catedraId = dto.getId();
@@ -40,7 +40,7 @@ public class EventSyncService {
                 continue;
             }
 
-            Optional<Event> opt = eventRepository.findOneByEventId(catedraId);
+            Optional<Event> opt = eventRepository.findByEventId(catedraId);
             Event event = opt.orElseGet(Event::new);
 
             if (event.getId() == null) {
@@ -73,7 +73,7 @@ public class EventSyncService {
 
         return eventRepository.findAll();
     }
-
+// Mapea la lista de integrantes a un String con el formato "ident nombre apellido | ..."
     private String mapIntegrantes(List<IntegranteDTO> integrantes) {
         if (integrantes == null || integrantes.isEmpty()) {
             return null;

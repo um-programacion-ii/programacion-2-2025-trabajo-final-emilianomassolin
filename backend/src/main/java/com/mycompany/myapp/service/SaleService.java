@@ -38,9 +38,7 @@ public class SaleService {
 
     /**
      * Save a sale.
-     *
-     * @param sale the entity to save.
-     * @return the persisted entity.
+
      */
     public Sale save(Sale sale) {
         LOG.debug("Request to save Sale : {}", sale);
@@ -233,8 +231,7 @@ public class SaleService {
     /**
      * Reintenta todas las ventas en estado PENDIENTE llamando nuevamente a la cátedra.
      *
-     * @param username Usuario técnico que dispara el reintento (solo para logging).
-     * @return lista de Sales actualizadas.
+
      */
     public List<Sale> reintentarVentasPendientes(String username) {
         LOG.debug("Reintentando ventas pendientes. Usuario técnico={}", username);
