@@ -12,7 +12,7 @@ Proyecto académico desarrollado como aplicación **cliente–servidor**, que pe
 
 El sistema utiliza **Spring Boot** en el backend, **Redis** para la gestión del estado de sesión y una app **Android (Jetpack Compose)** como frontend.
 
-Alumno: EMassolin Emiliano - 63059
+Alumno: Massolin Emiliano - 63059
 
 ##  Tecnologías utilizadas
 
