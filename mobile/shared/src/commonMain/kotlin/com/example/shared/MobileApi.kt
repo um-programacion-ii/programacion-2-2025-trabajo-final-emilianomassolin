@@ -140,12 +140,9 @@ class MobileApi(
       throw Exception("HTTP ${response.status.value}: $txt")
     }
 
-    // si no te interesa la respuesta, igual la parseamos liviana
+
     return response.body()
   }
-  /**
-   * GET /api/mobile/seleccion-actual?eventoId=X
-   */
   /**
    * GET /api/mobile/seleccion-actual?eventoId=X
    * Devuelve null si no hay selección o si expiró

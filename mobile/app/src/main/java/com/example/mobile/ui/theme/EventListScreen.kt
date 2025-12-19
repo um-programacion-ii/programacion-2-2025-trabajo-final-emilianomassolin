@@ -119,8 +119,7 @@ private fun EventItem(
     // ✅ IMAGEN
     AsyncImage(
       model = ImageRequest.Builder(context)
-        // 👇 CAMBIÁ ESTA LÍNEA AL NOMBRE REAL DE TU CAMPO:
-        .data(event.imageUrl) // <- por ejemplo: event.imagen
+        .data(event.imageUrl)
         .crossfade(true)
         .build(),
       contentDescription = null,

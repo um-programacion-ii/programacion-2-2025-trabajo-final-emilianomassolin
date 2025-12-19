@@ -59,7 +59,7 @@ public class MobileSaleResource {
             return ResponseEntity.badRequest().body("No hay asientos bloqueados para este evento o la selección expiró.");
         }
 
-        // Usamos orElseThrow solo para evitar Optional.get() (no debería ejecutarse nunca porque arriba validamos)
+
         SeatSelection selection = selectionOpt.orElseThrow(
             () -> new IllegalStateException("No se encontró SeatSelection activa a pesar de la validación previa")
         );
@@ -74,7 +74,7 @@ public class MobileSaleResource {
         if (request.getPersonas() == null || request.getPersonas().isEmpty()) {
             return ResponseEntity.badRequest().body("Debe enviar la lista de personas.");
         }
-
+// Verificar que la cantidad de personas coincida con la cantidad de asientos
         if (request.getPersonas().size() != posiciones.size()) {
             return ResponseEntity.badRequest().body("La cantidad de personas no coincide con la cantidad de asientos.");
         }
@@ -87,7 +87,7 @@ public class MobileSaleResource {
         ventaRequest.setPrecioVenta(request.getPrecioVenta());
 
         List<VentaRequestCatedraDTO.AsientoVentaDTO> asientosVenta = new ArrayList<>();
-
+// Llenar los asientos con fila, columna y persona
         for (int i = 0; i < posiciones.size(); i++) {
             PosicionAsiento pos = posiciones.get(i);
             String persona = request.getPersonas().get(i);
