@@ -14,7 +14,7 @@ El sistema utiliza **Spring Boot** en el backend, **Redis** para la gestión del
 
 Alumno: EMassolin Emiliano - 63059
 
-## 🧱 Tecnologías utilizadas
+##  Tecnologías utilizadas
 
 - **Backend**
   - Java 17
