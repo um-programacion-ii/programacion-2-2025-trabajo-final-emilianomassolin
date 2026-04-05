@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (event(); as eventRef) {
+      <div>
+        <h2 data-cy="eventDetailsHeading"><span jhiTranslate="backendApp.event.detail.title">Event</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ eventRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.eventId">Event Id</span></dt>
+          <dd>
+            <span>{{ eventRef.eventId }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.titulo">Titulo</span></dt>
+          <dd>
+            <span>{{ eventRef.titulo }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.resumen">Resumen</span></dt>
+          <dd>
+            <span>{{ eventRef.resumen }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.fecha">Fecha</span></dt>
+          <dd>
+            <span>{{ eventRef.fecha | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.descripcion">Descripcion</span></dt>
+          <dd>
+            <span>{{ eventRef.descripcion }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.filaAsientos">Fila Asientos</span></dt>
+          <dd>
+            <span>{{ eventRef.filaAsientos }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.columnaAsientos">Columna Asientos</span></dt>
+          <dd>
+            <span>{{ eventRef.columnaAsientos }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.tipoEvento">Tipo Evento</span></dt>
+          <dd>
+            <span>{{ eventRef.tipoEvento }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.direccion">Direccion</span></dt>
+          <dd>
+            <span>{{ eventRef.direccion }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.imagen">Imagen</span></dt>
+          <dd>
+            <span>{{ eventRef.imagen }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.precioEntrada">Precio Entrada</span></dt>
+          <dd>
+            <span>{{ eventRef.precioEntrada }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.tipoNombre">Tipo Nombre</span></dt>
+          <dd>
+            <span>{{ eventRef.tipoNombre }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.tipoDescripcion">Tipo Descripcion</span></dt>
+          <dd>
+            <span>{{ eventRef.tipoDescripcion }}</span>
+          </dd>
+          <dt><span jhiTranslate="backendApp.event.integrantes">Integrantes</span></dt>
+          <dd>
+            <span>{{ eventRef.integrantes }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/event', eventRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

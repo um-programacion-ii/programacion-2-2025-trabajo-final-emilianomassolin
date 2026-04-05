@@ -1,0 +1,145 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-seat-selection-heading"
+        data-cy="SeatSelectionCreateUpdateHeading"
+        jhiTranslate="backendApp.seatSelection.home.createOrEditLabel"
+      >
+        Crear o editar Seat Selection
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="backendApp.seatSelection.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let eventIdRef = editForm.get('eventId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_eventId" jhiTranslate="backendApp.seatSelection.eventId">Event Id</label>
+          <input type="number" class="form-control" name="eventId" id="field_eventId" data-cy="eventId" formControlName="eventId" />
+          @if (eventIdRef.invalid && (eventIdRef.dirty || eventIdRef.touched)) {
+            <div>
+              @if (editForm.get('eventId')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('eventId')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let userLoginRef = editForm.get('userLogin')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_userLogin" jhiTranslate="backendApp.seatSelection.userLogin">User Login</label>
+          <input type="text" class="form-control" name="userLogin" id="field_userLogin" data-cy="userLogin" formControlName="userLogin" />
+          @if (userLoginRef.invalid && (userLoginRef.dirty || userLoginRef.touched)) {
+            <div>
+              @if (editForm.get('userLogin')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let asientosRef = editForm.get('asientos')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_asientos" jhiTranslate="backendApp.seatSelection.asientos">Asientos</label>
+          <input type="text" class="form-control" name="asientos" id="field_asientos" data-cy="asientos" formControlName="asientos" />
+          @if (asientosRef.invalid && (asientosRef.dirty || asientosRef.touched)) {
+            <div>
+              @if (editForm.get('asientos')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let fechaSeleccionRef = editForm.get('fechaSeleccion')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_fechaSeleccion" jhiTranslate="backendApp.seatSelection.fechaSeleccion"
+            >Fecha Seleccion</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_fechaSeleccion"
+              data-cy="fechaSeleccion"
+              type="datetime-local"
+              class="form-control"
+              name="fechaSeleccion"
+              formControlName="fechaSeleccion"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (fechaSeleccionRef.invalid && (fechaSeleccionRef.dirty || fechaSeleccionRef.touched)) {
+            <div>
+              @if (editForm.get('fechaSeleccion')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('fechaSeleccion')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo debe ser una fecha y hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let expiracionRef = editForm.get('expiracion')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_expiracion" jhiTranslate="backendApp.seatSelection.expiracion">Expiracion</label>
+          <div class="d-flex">
+            <input
+              id="field_expiracion"
+              data-cy="expiracion"
+              type="datetime-local"
+              class="form-control"
+              name="expiracion"
+              formControlName="expiracion"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (expiracionRef.invalid && (expiracionRef.dirty || expiracionRef.touched)) {
+            <div>
+              @if (editForm.get('expiracion')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('expiracion')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo debe ser una fecha y hora.</small
+              >
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-user-session-heading"
+        data-cy="UserSessionCreateUpdateHeading"
+        jhiTranslate="backendApp.userSession.home.createOrEditLabel"
+      >
+        Crear o editar User Session
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="backendApp.userSession.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let userLoginRef = editForm.get('userLogin')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_userLogin" jhiTranslate="backendApp.userSession.userLogin">User Login</label>
+          <input type="text" class="form-control" name="userLogin" id="field_userLogin" data-cy="userLogin" formControlName="userLogin" />
+          @if (userLoginRef.invalid && (userLoginRef.dirty || userLoginRef.touched)) {
+            <div>
+              @if (editForm.get('userLogin')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let stepRef = editForm.get('step')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_step" jhiTranslate="backendApp.userSession.step">Step</label>
+          <input type="number" class="form-control" name="step" id="field_step" data-cy="step" formControlName="step" />
+          @if (stepRef.invalid && (stepRef.dirty || stepRef.touched)) {
+            <div>
+              @if (editForm.get('step')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('step')?.errors?.number" jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_eventId" jhiTranslate="backendApp.userSession.eventId">Event Id</label>
+          <input type="number" class="form-control" name="eventId" id="field_eventId" data-cy="eventId" formControlName="eventId" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_asientos" jhiTranslate="backendApp.userSession.asientos">Asientos</label>
+          <input type="text" class="form-control" name="asientos" id="field_asientos" data-cy="asientos" formControlName="asientos" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_nombres" jhiTranslate="backendApp.userSession.nombres">Nombres</label>
+          <input type="text" class="form-control" name="nombres" id="field_nombres" data-cy="nombres" formControlName="nombres" />
+        </div>
+
+        @let updatedAtRef = editForm.get('updatedAt')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_updatedAt" jhiTranslate="backendApp.userSession.updatedAt">Updated At</label>
+          <div class="d-flex">
+            <input
+              id="field_updatedAt"
+              data-cy="updatedAt"
+              type="datetime-local"
+              class="form-control"
+              name="updatedAt"
+              formControlName="updatedAt"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (updatedAtRef.invalid && (updatedAtRef.dirty || updatedAtRef.touched)) {
+            <div>
+              @if (editForm.get('updatedAt')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('updatedAt')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo debe ser una fecha y hora.</small
+              >
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

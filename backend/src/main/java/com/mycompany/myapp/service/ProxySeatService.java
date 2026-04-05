@@ -1,0 +1,50 @@
+package com.mycompany.myapp.service;
+
+import com.mycompany.myapp.config.ProxyProperties;
+import com.mycompany.myapp.service.dto.proxy.SeatMapDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+@Service
+public class ProxySeatService {
+
+    private final Logger log = LoggerFactory.getLogger(ProxySeatService.class);
+
+    private final RestTemplate proxyRestTemplate;
+    private final ProxyProperties proxyProperties;
+
+    public ProxySeatService(
+        @Qualifier("proxyRestTemplate") RestTemplate proxyRestTemplate,
+        ProxyProperties proxyProperties
+    ) {
+        this.proxyRestTemplate = proxyRestTemplate;
+        this.proxyProperties = proxyProperties;
+    }
+
+    public SeatMapDTO getSeatMapForEvent(Long eventoId, int filas, int columnas) {
+
+        String path = UriComponentsBuilder
+            .fromPath("/api/proxy/eventos/asientos")
+            .queryParam("eventoId", eventoId)
+            .queryParam("filas", filas)
+            .queryParam("columnas", columnas)
+            .toUriString();
+
+        String base = proxyProperties.getBaseUrl();
+
+        log.debug("Llamando al proxy para obtener mapa de asientos. base={} path={}", base, path);
+
+        try {
+            // como el RestTemplate tiene rootUri, llamamos solo con el path
+            return proxyRestTemplate.getForObject(path, SeatMapDTO.class);
+        } catch (RestClientException e) {
+            log.error("Error llamando al proxy para evento {}: {}", eventoId, e.getMessage(), e);
+            throw e;
+        }
+    }
+}

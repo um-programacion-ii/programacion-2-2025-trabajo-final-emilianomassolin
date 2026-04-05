@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20251120142221"
+  },
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "eventId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userLogin",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "asientos",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fechaSeleccion",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "expiracion",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "SeatSelection",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

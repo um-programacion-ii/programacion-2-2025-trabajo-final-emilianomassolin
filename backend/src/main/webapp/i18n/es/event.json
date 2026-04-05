@@ -1,0 +1,37 @@
+{
+  "backendApp": {
+    "event": {
+      "home": {
+        "title": "Events",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Event",
+        "createOrEditLabel": "Crear o editar Event",
+        "notFound": "Ningún Events encontrado"
+      },
+      "created": "Un nuevo Event ha sido creado con el identificador {{ param }}",
+      "updated": "Un Event ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Event ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Event {{ id }}?"
+      },
+      "detail": {
+        "title": "Event"
+      },
+      "id": "ID",
+      "eventId": "Event Id",
+      "titulo": "Titulo",
+      "resumen": "Resumen",
+      "fecha": "Fecha",
+      "descripcion": "Descripcion",
+      "filaAsientos": "Fila Asientos",
+      "columnaAsientos": "Columna Asientos",
+      "tipoEvento": "Tipo Evento",
+      "direccion": "Direccion",
+      "imagen": "Imagen",
+      "precioEntrada": "Precio Entrada",
+      "tipoNombre": "Tipo Nombre",
+      "tipoDescripcion": "Tipo Descripcion",
+      "integrantes": "Integrantes"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "backendApp": {
+    "userSession": {
+      "home": {
+        "title": "User Sessions",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo User Session",
+        "createOrEditLabel": "Crear o editar User Session",
+        "notFound": "Ningún User Sessions encontrado"
+      },
+      "created": "Un nuevo User Session ha sido creado con el identificador {{ param }}",
+      "updated": "Un User Session ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un User Session ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar User Session {{ id }}?"
+      },
+      "detail": {
+        "title": "User Session"
+      },
+      "id": "ID",
+      "userLogin": "User Login",
+      "step": "Step",
+      "eventId": "Event Id",
+      "asientos": "Asientos",
+      "nombres": "Nombres",
+      "updatedAt": "Updated At"
+    }
+  }
+}

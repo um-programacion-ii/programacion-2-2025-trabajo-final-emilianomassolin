@@ -1,0 +1,219 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-sale-heading" data-cy="SaleCreateUpdateHeading" jhiTranslate="backendApp.sale.home.createOrEditLabel">
+        Crear o editar Sale
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="backendApp.sale.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let ventaIdRef = editForm.get('ventaId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_ventaId" jhiTranslate="backendApp.sale.ventaId">Venta Id</label>
+          <input type="number" class="form-control" name="ventaId" id="field_ventaId" data-cy="ventaId" formControlName="ventaId" />
+          @if (ventaIdRef.invalid && (ventaIdRef.dirty || ventaIdRef.touched)) {
+            <div>
+              @if (editForm.get('ventaId')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('ventaId')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let eventIdRef = editForm.get('eventId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_eventId" jhiTranslate="backendApp.sale.eventId">Event Id</label>
+          <input type="number" class="form-control" name="eventId" id="field_eventId" data-cy="eventId" formControlName="eventId" />
+          @if (eventIdRef.invalid && (eventIdRef.dirty || eventIdRef.touched)) {
+            <div>
+              @if (editForm.get('eventId')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('eventId')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let fechaVentaRef = editForm.get('fechaVenta')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_fechaVenta" jhiTranslate="backendApp.sale.fechaVenta">Fecha Venta</label>
+          <div class="d-flex">
+            <input
+              id="field_fechaVenta"
+              data-cy="fechaVenta"
+              type="datetime-local"
+              class="form-control"
+              name="fechaVenta"
+              formControlName="fechaVenta"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (fechaVentaRef.invalid && (fechaVentaRef.dirty || fechaVentaRef.touched)) {
+            <div>
+              @if (editForm.get('fechaVenta')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('fechaVenta')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo debe ser una fecha y hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let asientosRef = editForm.get('asientos')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_asientos" jhiTranslate="backendApp.sale.asientos">Asientos</label>
+          <input type="text" class="form-control" name="asientos" id="field_asientos" data-cy="asientos" formControlName="asientos" />
+          @if (asientosRef.invalid && (asientosRef.dirty || asientosRef.touched)) {
+            <div>
+              @if (editForm.get('asientos')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let nombresRef = editForm.get('nombres')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_nombres" jhiTranslate="backendApp.sale.nombres">Nombres</label>
+          <input type="text" class="form-control" name="nombres" id="field_nombres" data-cy="nombres" formControlName="nombres" />
+          @if (nombresRef.invalid && (nombresRef.dirty || nombresRef.touched)) {
+            <div>
+              @if (editForm.get('nombres')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let precioVentaRef = editForm.get('precioVenta')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_precioVenta" jhiTranslate="backendApp.sale.precioVenta">Precio Venta</label>
+          <input
+            type="number"
+            class="form-control"
+            name="precioVenta"
+            id="field_precioVenta"
+            data-cy="precioVenta"
+            formControlName="precioVenta"
+          />
+          @if (precioVentaRef.invalid && (precioVentaRef.dirty || precioVentaRef.touched)) {
+            <div>
+              @if (editForm.get('precioVenta')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('precioVenta')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let estadoRef = editForm.get('estado')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_estado" jhiTranslate="backendApp.sale.estado">Estado</label>
+          <input type="text" class="form-control" name="estado" id="field_estado" data-cy="estado" formControlName="estado" />
+          @if (estadoRef.invalid && (estadoRef.dirty || estadoRef.touched)) {
+            <div>
+              @if (editForm.get('estado')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let resultadoRef = editForm.get('resultado')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_resultado" jhiTranslate="backendApp.sale.resultado">Resultado</label>
+          <input type="checkbox" class="form-check" name="resultado" id="field_resultado" data-cy="resultado" formControlName="resultado" />
+          @if (resultadoRef.invalid && (resultadoRef.dirty || resultadoRef.touched)) {
+            <div>
+              @if (editForm.get('resultado')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_descripcion" jhiTranslate="backendApp.sale.descripcion">Descripcion</label>
+          <input
+            type="text"
+            class="form-control"
+            name="descripcion"
+            id="field_descripcion"
+            data-cy="descripcion"
+            formControlName="descripcion"
+          />
+        </div>
+
+        @let cantidadAsientosRef = editForm.get('cantidadAsientos')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_cantidadAsientos" jhiTranslate="backendApp.sale.cantidadAsientos">Cantidad Asientos</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cantidadAsientos"
+            id="field_cantidadAsientos"
+            data-cy="cantidadAsientos"
+            formControlName="cantidadAsientos"
+          />
+          @if (cantidadAsientosRef.invalid && (cantidadAsientosRef.dirty || cantidadAsientosRef.touched)) {
+            <div>
+              @if (editForm.get('cantidadAsientos')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('cantidadAsientos')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
